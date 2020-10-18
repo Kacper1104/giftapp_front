@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import User from "../ViewModel/User";
 import "../custom.scss";
 
@@ -7,14 +7,15 @@ class RegisterUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showModal: false,
+      redir: "",
       validated: false,
       fields: {},
       errors: {},
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  
   handleValidation() {
     let fields = this.state.fields;
     let errors = {};
@@ -81,16 +82,44 @@ class RegisterUser extends Component {
     user.name = this.state.fields["name"];
     user.email = this.state.fields["email"];
     user.register(this.state.fields["password"]).then((result) => {
-      if (!result) {
+      if(result === 201){
+        window.location.replace(this.state.redir);
+      }
+      else if (result === 409) {
         console.log("Could not register!");
-        alert("Error!");
+        var errors = this.state.errors;
+        errors["email"] = "Ten adres email jest już zajęty."
+        this.setState({showModal: true, errors})
+      }
+      else{
+        this.setState({showModal: true})
       }
     });
   }
-
+  
   render() {
     return (
       <div className="body-form">
+        <Modal
+          show={this.state.showModal}
+          onHide={() => this.setState({showModal:false})}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Modal title</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            I will not close if you click outside me. Don't even try to press
+            escape key.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => this.setState({showModal:false})}>
+              Close
+            </Button>
+            <Button variant="primary">Understood</Button>
+          </Modal.Footer>
+        </Modal>
         <Form noValidate>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>

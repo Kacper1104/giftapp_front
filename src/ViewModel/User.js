@@ -62,15 +62,15 @@ class User {
         }),
       });
       if (response.status === 201) {
-        localStorage.token = response.body;
-        return true;
+        localStorage.token = await response.json();
+        
       } else {
         console.log(response);
-        return false;
+        return response.status;
       }
     } catch (error) {
       console.log(error);
-      return false;
+      return 500;
     }
   };
 }

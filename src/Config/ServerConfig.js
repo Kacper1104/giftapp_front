@@ -1,6 +1,5 @@
-const { configure } = require("@testing-library/react");
 const config = {
-  server_address: "localhost",
+  server_address: "http://localhost",
   server_port: ":6060",
 };
 const routes = { register: "/users", signIn: "/auth" };
