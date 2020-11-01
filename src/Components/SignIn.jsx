@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
+import MyModal from "./MyModal";
 import User from "../ViewModel/User";
 import "../custom.scss";
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
+    console.log("123");
     this.state = {
       validated: false,
-      ctx: null,
       fields: {},
       errors: {},
+      showModal: false,
+      modalTitle: "Some title",
+      modalBody: "Some body"
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,10 +58,14 @@ class SignIn extends Component {
   signIn() {
     const user = new User();
     user.email = this.state.fields["email"];
-    user.login(this.state.fields["password"]).then((result) => {
+    user.signIn(this.state.fields["password"]).then((result) => {
       if (!result) {
         console.log("Could not sign in!");
-        alert("Error!");
+        this.setState({
+          showModal: true, 
+          modalTitle: "Błąd",
+          modalBody: "Login lub hasło niepoprawne"
+        });
       }
     });
   }
@@ -65,6 +73,11 @@ class SignIn extends Component {
   render() {
     return (
       <div className="body-form">
+        <MyModal 
+          show={this.state.showModal}
+          body={this.state.modalBody}
+          title={this.state.modalTitle}
+          callback={() => this.setState({showModal: false})}/>
         <Form noValidate>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
@@ -96,13 +109,6 @@ class SignIn extends Component {
           </Form.Group>
           <Button variant="primary" type="submit" onClick={this.handleSubmit}>
             Zaloguj
-          </Button>
-          <Button
-            variant="link"
-            type="submit"
-            onClick={this.goToLogin.bind(this, this.state.ctx)}
-          >
-            Zarejestruj
           </Button>
         </Form>
       </div>

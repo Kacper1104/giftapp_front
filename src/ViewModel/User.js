@@ -1,4 +1,5 @@
 import { config, routes } from "../Config/ServerConfig.js";
+import MyEvent from"./MyEvent";
 
 class User {
   constructor(
@@ -34,7 +35,7 @@ class User {
         }),
       });
       if (response.status === 200) {
-        localStorage.token = response.body;
+        localStorage.token = await response.json();
         return true;
       } else {
         console.log(response);
@@ -65,7 +66,7 @@ class User {
         localStorage.token = await response.json();
         
       } else {
-        console.log(response);
+        //console.log(response);
         return response.status;
       }
     } catch (error) {
@@ -73,5 +74,35 @@ class User {
       return 500;
     }
   };
+
+  fetchEvents = async (offset, pageSize) => {
+    const url = config.server_address + config.server_port + routes.events;
+    try{
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.token,
+          "offset": offset,
+          "pageSize": pageSize
+        }
+      });
+      if(response.status === 200){
+        const list = await response.json();
+        var events = [];
+        for(var i = 0; i < list.length; i++){
+          events.push(new MyEvent(list[i].id, list[i].name, list[i].start_date, list[i].is_active, list[i].created_date, list[i].changed_date, list[i].role, list[i].reservation_id));
+        }
+        console.log(events);
+        return events;
+      }
+      else return response.status;
+    }
+    catch(error){
+      console.log(error); 
+      return 500;
+    }
+  }
 }
 export default User;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, NavDropdown, Nav, Container } from "react-bootstrap";
+import { Navbar, NavDropdown, Nav } from "react-bootstrap";
 
 class Menu extends Component {
   constructor(props) {
@@ -15,12 +15,14 @@ class Menu extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-            <NavDropdown title="Settings" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/users">Users</NavDropdown.Item>
+            <Nav.Link href="/home">Strona główna</Nav.Link>
+            <NavDropdown title="SUstawienia" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/users">Użytkownicy</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="/event/new">Create event</Nav.Link>
-            <Nav.Link href="/event/select">Show event</Nav.Link>
+            <Nav.Link href="/event/new">Dodaj wydarzenie</Nav.Link>
+            <Nav.Link href="/event/select">Pokaż wydarzenie</Nav.Link>
+            <Nav.Link href="/events">Moje wydarzenia</Nav.Link>
+            <Nav.Link href="/login">Zaloguj</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

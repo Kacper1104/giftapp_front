@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button} from "react-bootstrap";
+import MyModal from "./MyModal"
 import User from "../ViewModel/User";
 import "../custom.scss";
 
@@ -8,6 +9,8 @@ class RegisterUser extends Component {
     super(props);
     this.state = {
       showModal: false,
+      modalTitle: "Some title",
+      modalBody: "Some body",
       redir: "",
       validated: false,
       fields: {},
@@ -89,10 +92,10 @@ class RegisterUser extends Component {
         console.log("Could not register!");
         var errors = this.state.errors;
         errors["email"] = "Ten adres email jest już zajęty."
-        this.setState({showModal: true, errors})
+        this.setState({errors})
       }
       else{
-        this.setState({showModal: true})
+        this.setState({showModal: true, modalTitle: "Wystąpił nieoczekiwany błąd.", modalBody: "Proszę spróbować później."})
       }
     });
   }
@@ -100,26 +103,12 @@ class RegisterUser extends Component {
   render() {
     return (
       <div className="body-form">
-        <Modal
+        <MyModal
           show={this.state.showModal}
-          onHide={() => this.setState({showModal:false})}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            I will not close if you click outside me. Don't even try to press
-            escape key.
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.setState({showModal:false})}>
-              Close
-            </Button>
-            <Button variant="primary">Understood</Button>
-          </Modal.Footer>
-        </Modal>
+          title={this.state.modalTitle}
+          body={this.state.modalBody}
+          >
+        </MyModal>
         <Form noValidate>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>

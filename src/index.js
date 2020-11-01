@@ -7,6 +7,8 @@ import Dashboard from "./Components/Dashboard";
 import Menu from "./Components/Menu";
 import UsersOverview from "./Components/UsersOverview";
 import NewEvent from "./Components/NewEvent";
+import SignIn from "./Components/SignIn";
+import Events from "./Components/Events"
 
 class Main extends Component {
   render() {
@@ -25,6 +27,12 @@ class Main extends Component {
           </Route>
           <Route exact path="/event/new">
             <NewEvent />
+          </Route>
+            <Route exact path="/events">
+            <Events />
+          </Route>
+          <Route exact path="/login">
+            <SignIn />
           </Route>
         </Switch>
       </div>
