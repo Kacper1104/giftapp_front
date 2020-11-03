@@ -7,7 +7,6 @@ import "../custom.scss";
 class SignIn extends Component {
   constructor(props) {
     super(props);
-    console.log("123");
     this.state = {
       validated: false,
       fields: {},
@@ -62,7 +61,7 @@ class SignIn extends Component {
       if (!result) {
         console.log("Could not sign in!");
         this.setState({
-          showModal: true, 
+          showModal: true,
           modalTitle: "Błąd",
           modalBody: "Login lub hasło niepoprawne"
         });
@@ -72,12 +71,12 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div className="body-form">
-        <MyModal 
+      <div className="body-form login-form">
+        <MyModal
           show={this.state.showModal}
           body={this.state.modalBody}
           title={this.state.modalTitle}
-          callback={() => this.setState({showModal: false})}/>
+          callback={() => this.setState({ showModal: false })} />
         <Form noValidate>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
@@ -110,6 +109,7 @@ class SignIn extends Component {
           <Button variant="primary" type="submit" onClick={this.handleSubmit}>
             Zaloguj
           </Button>
+          <Button variant="link" type="button" onClick={() => window.location.href = "/register"}>Zarejestruj się</Button>
         </Form>
       </div>
     );

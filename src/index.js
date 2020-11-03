@@ -9,6 +9,7 @@ import UsersOverview from "./Components/UsersOverview";
 import NewEvent from "./Components/NewEvent";
 import SignIn from "./Components/SignIn";
 import Events from "./Components/Events"
+import RegisterUser from "./Components/RegisterUser";
 
 class Main extends Component {
   render() {
@@ -33,6 +34,9 @@ class Main extends Component {
           </Route>
           <Route exact path="/login">
             <SignIn />
+          </Route>
+          <Route exact path="/register">
+            <RegisterUser />
           </Route>
         </Switch>
       </div>

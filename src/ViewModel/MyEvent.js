@@ -22,7 +22,32 @@ class MyEvent {
 
   }
 
-  
+  create = async (event_name, start_date) => {
+    const url = config.server_address + config.server_port + routes.events;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.token,
+        },
+        body: JSON.stringify({
+          event_name: event_name,
+          start_date: start_date
+        }),
+      });
+      if (response.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
 
 }
 export default MyEvent;

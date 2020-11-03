@@ -16,7 +16,7 @@ class Menu extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/home">Strona główna</Nav.Link>
-            <NavDropdown title="SUstawienia" id="basic-nav-dropdown">
+            <NavDropdown title="Ustawienia" id="basic-nav-dropdown">
               <NavDropdown.Item href="/users">Użytkownicy</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="/event/new">Dodaj wydarzenie</Nav.Link>

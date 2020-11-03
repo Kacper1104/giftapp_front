@@ -1,5 +1,5 @@
 import { config, routes } from "../Config/ServerConfig.js";
-import MyEvent from"./MyEvent";
+//import MyEvent from"./MyEvent";
 
 class User {
   constructor(
@@ -37,7 +37,12 @@ class User {
       if (response.status === 200) {
         localStorage.token = await response.json();
         return true;
-      } else {
+      } 
+      else if (response.status === 401){
+        //console.log(401);
+        return false;
+      }
+      else {
         console.log(response);
         return false;
       }
@@ -64,14 +69,14 @@ class User {
       });
       if (response.status === 201) {
         localStorage.token = await response.json();
-        
+        return true;
       } else {
         //console.log(response);
-        return response.status;
+        return false;
       }
     } catch (error) {
       console.log(error);
-      return 500;
+      return false;
     }
   };
 
@@ -89,19 +94,17 @@ class User {
         }
       });
       if(response.status === 200){
-        const list = await response.json();
-        var events = [];
-        for(var i = 0; i < list.length; i++){
-          events.push(new MyEvent(list[i].id, list[i].name, list[i].start_date, list[i].is_active, list[i].created_date, list[i].changed_date, list[i].role, list[i].reservation_id));
-        }
-        console.log(events);
-        return events;
+        return response.json();
       }
-      else return response.status;
+      else if (response.status === 401){
+        //console.log(401);
+        return false;
+      }
+      else return false;
     }
     catch(error){
       console.log(error); 
-      return 500;
+      return false;
     }
   }
 }

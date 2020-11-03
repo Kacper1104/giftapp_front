@@ -43,3 +43,36 @@ $body-bg: rgba(255, 255, 255, 0);
   margin-left: 15px;
   margin-right: 15px;
 }
+
+.login-form{
+  max-width: 500px;
+}
+
+.card {
+  min-width: 256px;
+  max-width: 256px;
+}
+
+.card-deck .card {
+  flex: 1 0;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+.pull-right {
+  float: right
+}
+
+.list-button{
+  margin-bottom: 15px;
+  min-width: 80px;
+  display:block;
+}
+
+.datepicker-row{
+  margin-left: 0;
+  margin-right: 0;
+  display: grid
+}
+
