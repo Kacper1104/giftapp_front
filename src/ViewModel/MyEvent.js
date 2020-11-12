@@ -19,7 +19,6 @@ class MyEvent {
     this.changed_date = changed_date;
     this.role = role;
     this.reservation_id = reservation_id;
-
   }
 
   create = async (event_name, start_date) => {
@@ -46,8 +45,38 @@ class MyEvent {
       console.log(error);
       return false;
     }
-  };
+  }
 
+  getGifts = async () => {
+    const url = config.server_address + config.server_port + routes.gifts;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.token,
+          "eventId": this.id
+        }
+      });
+      if (response.status === 200) {
+        return response.json();
+      }
+      else if (response.status === 401) {
+        //console.log(401);
+        return false;
+      }
+      else return false;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
 
+  }
+  catch(error) {
+    console.log(error);
+    return false;
+  }
 }
 export default MyEvent;

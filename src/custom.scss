@@ -1,5 +1,6 @@
 // Override default variables before the import
-$body-bg: rgba(255, 255, 255, 0);
+$secondary: #8ed5e6;
+
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
 
@@ -14,6 +15,7 @@ $body-bg: rgba(255, 255, 255, 0);
   position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
+  background-color: $secondary;
 }
 
 .mt-0 {
@@ -51,6 +53,7 @@ $body-bg: rgba(255, 255, 255, 0);
 .card {
   min-width: 256px;
   max-width: 256px;
+  max-height: 512px;
 }
 
 .card-deck .card {
@@ -76,3 +79,44 @@ $body-bg: rgba(255, 255, 255, 0);
   display: grid
 }
 
+ div.gift:hover {
+  background: $secondary;
+}
+
+.plus {
+  height: min-content;
+  align-self: center;
+  border: none;
+  display: flex;
+  cursor: pointer;
+}
+
+.plus-mobile{
+  height: 256px;
+  border: none;
+  display: flex;
+  cursor: pointer;
+}
+
+.card-deck .card .card-footer{
+  background-color: inherit;
+  border-top: none;
+}
+
+.nohover {
+  pointer-events: none;
+}
+
+.flex-center{
+  flex:1;
+}
+
+.truncate{
+  display: -webkit-box;
+  max-width: inherit;
+  margin: 0 auto;
+  -webkit-line-clamp:7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

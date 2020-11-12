@@ -66,6 +66,9 @@ class SignIn extends Component {
           modalBody: "Login lub hasło niepoprawne"
         });
       }
+      else {
+        window.location.href = "/events";
+      }
     });
   }
 

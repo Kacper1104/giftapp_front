@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import MyModal from "./MyModal"
 import User from "../ViewModel/User";
 import "../custom.scss";
@@ -18,7 +18,7 @@ class RegisterUser extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   handleValidation() {
     let fields = this.state.fields;
     let errors = {};
@@ -85,21 +85,21 @@ class RegisterUser extends Component {
     user.name = this.state.fields["name"];
     user.email = this.state.fields["email"];
     user.register(this.state.fields["password"]).then((result) => {
-      if(result === 201){
+      if (result === 201) {
         window.location.replace(this.state.redir);
       }
       else if (result === 409) {
         console.log("Could not register!");
         var errors = this.state.errors;
         errors["email"] = "Ten adres email jest już zajęty."
-        this.setState({errors})
+        this.setState({ errors })
       }
-      else{
-        this.setState({showModal: true, modalTitle: "Wystąpił nieoczekiwany błąd.", modalBody: "Proszę spróbować później."})
+      else {
+        this.setState({ showModal: true, modalTitle: "Wystąpił nieoczekiwany błąd.", modalBody: "Proszę spróbować później." })
       }
     });
   }
-  
+
   render() {
     return (
       <div className="body-form">
@@ -107,7 +107,8 @@ class RegisterUser extends Component {
           show={this.state.showModal}
           title={this.state.modalTitle}
           body={this.state.modalBody}
-          >
+          callback={() => this.setState({ showModal: false })}
+        >
         </MyModal>
         <Form noValidate>
           <Form.Group controlId="formBasicEmail">
