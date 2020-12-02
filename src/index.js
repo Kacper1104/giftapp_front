@@ -17,7 +17,7 @@ class Main extends Component {
         <Menu />
         <Switch>
           <Route exact path="/">
-            {<Home />}
+            {<Events />}
           </Route>
           <Route exact path="/events">
             <Events />

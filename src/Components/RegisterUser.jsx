@@ -86,7 +86,7 @@ class RegisterUser extends Component {
     user.email = this.state.fields["email"];
     user.register(this.state.fields["password"]).then((result) => {
       if (result === 201) {
-        window.location.replace(this.state.redir);
+        window.location.href = "/login";
       }
       else if (result === 409) {
         console.log("Could not register!");

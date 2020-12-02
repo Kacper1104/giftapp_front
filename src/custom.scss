@@ -64,7 +64,11 @@ $secondary: #8ed5e6;
 }
 
 .pull-right {
-  float: right
+  float: right;
+}
+
+.pull-left {
+  float: left;
 }
 
 .list-button{
@@ -119,4 +123,18 @@ $secondary: #8ed5e6;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.card-deck .card-expanded{
+    max-width: initial;
+    max-height: initial;
+    min-width: 94%;
+    margin-left: 3%;
+    margin-right: 3%;
+    animation: forwards;
+    text-align: center;
+}
+
+.card-expanded .card-text{
+  text-align: left;
 }

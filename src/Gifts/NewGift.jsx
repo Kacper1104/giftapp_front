@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Card } from "react-bootstrap"
 import "../custom.scss";
+import { isMobile } from "react-device-detect";
 import MyEvent from "../ViewModel/Gift";
 import MyModal from "../Components/MyModal";
+import Gift from "../ViewModel/Gift";
 
 class NewGift extends Component {
     constructor(props) {
@@ -10,10 +12,7 @@ class NewGift extends Component {
         this.state = {
             validated: false,
             fields: {},
-            errors: {},
-            showModal: false,
-            modalBody: '',
-            modalTitle: ''
+            errors: {}
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -26,35 +25,30 @@ class NewGift extends Component {
         //name
         if (!fields["name"]) {
             formIsValid = false;
-            errors["name"] = "Nazwa wydarzenia nie może być pusta.";
+            errors["name"] = "Nazwa prezentu nie może być pusta.";
         }
-
-        //date
-        errors["start-date"] = "ERROR";
+        //description
+        if (!fields["description"]) {
+            formIsValid = false;
+            errors["description"] = "Opis prezentu nie może być pusta.";
+        }
 
         this.setState({ errors: errors, validated: true });
         return formIsValid;
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         if (!this.handleValidation()) {
             //console.log('Validation failed!');
+        } else {
+            const newGift = new Gift();
+            newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"]).then((response) => !response ? window.location.href = "/error" : this.props.handleCreate());
         }
-        else {
-            const myEvent = new MyEvent();
-            myEvent.create(this.state.fields["name"], this.state.fields["start-date"]).then((response => {
-                if (response) {
-                    this.props.onCreate();
-                }
-                else {
-                    this.setState({
-                        showModal: true,
-                        modalTitle: 'Błąd serwera',
-                        modalBody: 'Nie udało się utworzyć wydarzenia.'
-                    });
-                }
-            }));
-        }
+    }
+
+    handleCancel = () => {
+        this.setState({ fields: undefined });
+        this.props.onCancel();
     }
 
     handleChange(field, event) {
@@ -65,56 +59,45 @@ class NewGift extends Component {
 
     render() {
         return (
-            <div className="body-form login-form" >
-                <MyModal
-                    show={this.state.showModal}
-                    body={this.state.modalBody}
-                    title={this.state.modalTitle}
-                    callback={() => this.setState({ showModal: false })} />
-                <Form noValidate>
-                    <Form.Group controlId="formBasicName">
-                        <Form.Label>Nazwa wydarzenia</Form.Label>
-                        <Form.Control
-                            name="name"
-                            type="name"
-                            value={this.state.fields["name"]}
-                            onChange={this.handleChange.bind(this, "name")}
-                            placeholder="Wpisz nazwę wydarzenia"
-                            isInvalid={this.state.errors["name"] ? true : false}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {this.state.errors["name"]}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicDate">
-                        <Form.Label>Data wydarzenia</Form.Label>
-                        <Form.Row className="datepicker-row" >
-                            <DatePicker className="form-control" type="date" name="start-date"
-                                selected={this.state.fields["start-date"]}
-                                onChange={(date) => {
-                                    let fields = this.state.fields;
-                                    fields["start-date"] = date;
-                                    this.setState({ fields });
-                                }}
-                                onSelect={(date) => {
-                                    let fields = this.state.fields;
-                                    fields["start-date"] = date;
-                                    this.setState({ fields });
-                                }}
-                                dateFormat="dd/MM/yyyy"
-                                locale="pl"
-                                placeholderText="Wybierz datę wydarzenia"
+            <Card className={isMobile ? "mx-auto pt-4 card-expanded" : "pt-4 card-expanded"} key="button" >
+                <Card.Body><Card.Title>Nowy prezent</Card.Title>
+                    <Form noValidate className="card-text">
+                        <Form.Group controlId="formBasicName">
+                            <Form.Label>Nazwa prezentu</Form.Label>
+                            <Form.Control
+                                name="name"
+                                type="name"
+                                value={this.state.fields["name"]}
+                                onChange={this.handleChange.bind(this, "name")}
+                                placeholder="Wpisz nazwę prezentu"
+                                isInvalid={this.state.errors["name"] ? true : false}
                             />
-                        </Form.Row>
-                    </Form.Group>
-                    <Button variant="primary" type="button" onClick={this.handleSubmit}>
-                        Utwórz
-          </Button>
-                    <Button variant="link" type="button" onClick={this.props.onCancel}>
-                        Anuluj
-          </Button>
-                </Form>
-            </div >
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.errors["name"]}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="formBasicName">
+                            <Form.Label>Opis</Form.Label>
+                            <Form.Control
+                                name="description"
+                                type="description"
+                                as="textarea"
+                                value={this.state.fields["description"]}
+                                onChange={this.handleChange.bind(this, "description")}
+                                placeholder="Opisz prezent"
+                                isInvalid={this.state.errors["description"] ? true : false}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.errors["description"]}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Form>
+                </Card.Body>
+                <Card.Footer>
+                    <Button variant="primary" type="button" className="pull-left" onClick={this.handleSubmit}>Utwórz</Button>
+                    <Button variant="link" type="button" className="pull-right" onClick={this.handleCancel}>Anuluj</Button>
+                </Card.Footer>
+            </Card>
         );
     }
 }

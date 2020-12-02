@@ -67,7 +67,7 @@ class SignIn extends Component {
         });
       }
       else {
-        window.location.href = "/events";
+        window.location.href = "/";
       }
     });
   }

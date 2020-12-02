@@ -37,8 +37,8 @@ class User {
       if (response.status === 200) {
         localStorage.token = await response.json();
         return true;
-      } 
-      else if (response.status === 401){
+      }
+      else if (response.status === 401) {
         //console.log(401);
         return false;
       }
@@ -69,20 +69,19 @@ class User {
       });
       if (response.status === 201) {
         localStorage.token = await response.json();
-        return true;
-      } else {
-        //console.log(response);
-        return false;
+        return 201;
+      } else if (response.status === 409) {
+        return 409;
       }
     } catch (error) {
       console.log(error);
-      return false;
+      return 500;
     }
   };
 
   fetchEvents = async (offset, pageSize) => {
     const url = config.server_address + config.server_port + routes.events;
-    try{
+    try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -93,17 +92,17 @@ class User {
           "pageSize": pageSize
         }
       });
-      if(response.status === 200){
+      if (response.status === 200) {
         return response.json();
       }
-      else if (response.status === 401){
+      else if (response.status === 401) {
         //console.log(401);
         return false;
       }
       else return false;
     }
-    catch(error){
-      console.log(error); 
+    catch (error) {
+      console.log(error);
       return false;
     }
   }
