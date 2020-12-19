@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import User from "../ViewModel/User";
 import Event from "./Event"
 import NewEvent from "./NewEvent";
 import { EventsList } from "./EventsList";
+import JoinEvent from "./JoinEvent";
 //import MyEvent from"../ViewModel/MyEvent";
 
 class Events extends Component {
@@ -12,11 +13,14 @@ class Events extends Component {
     this.state = {
       offset: 1,
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 100,
       eventSelected: false,
       eventId: undefined,
-      showForm: false
+      showForm: false,
+      joinEvent: false
     };
+
+    this.fetchData.bind(this);
   }
 
   selectEvent(id, isOrganiser) {
@@ -30,7 +34,7 @@ class Events extends Component {
 
   fetchData() {
     const user = new User();
-    user.fetchEvents(this.state.offset, this.state.pageSize).then(json => !json ? window.location.href = "/login" : this.setState({ data: json }));
+    user.fetchEvents(this.state.offset, this.state.pageSize).then(json => !json ? window.location.href = "/login" : this.setState({ data: json, joinEvent: false }));
   }
 
   componentDidMount() {
@@ -40,7 +44,13 @@ class Events extends Component {
   render() {
     return !this.state.showForm ? (this.state.eventSelected === true ? <Event eventId={this.state.eventId} isOrganiser={this.state.isOrganiser} /> : (
       <div className="body-form">
-        <Button className="pull-right list-button" variant="success" onClick={() => this.setState({ showForm: true })} >Utwórz nowe wydarzenie</Button>
+        {this.state.joinEvent ?
+          <JoinEvent onJoin={() => this.fetchData()} onCancel={() => this.setState({joinEvent: false})}/>
+          :
+          <ButtonGroup vertical>
+            <Button className="pull-left list-button" variant="success" onClick={() => this.setState({ joinEvent: true })} >Dołącz do wydarzenia</Button>
+            <Button className="pull-left list-button" variant="primary" onClick={() => this.setState({ showForm: true })} >Utwórz nowe wydarzenie</Button>
+          </ButtonGroup>}
         <EventsList
           data={this.state.data}
           callback={(id, isOrganiser) => this.selectEvent(id, isOrganiser)}

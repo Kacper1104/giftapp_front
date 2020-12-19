@@ -46,7 +46,7 @@ $secondary: #8ed5e6;
   margin-right: 15px;
 }
 
-.login-form{
+.login-form {
   max-width: 500px;
 }
 
@@ -71,19 +71,19 @@ $secondary: #8ed5e6;
   float: left;
 }
 
-.list-button{
+.list-button {
   margin-bottom: 15px;
   min-width: 80px;
-  display:block;
+  display: block;
 }
 
-.datepicker-row{
+.datepicker-row {
   margin-left: 0;
   margin-right: 0;
-  display: grid
+  display: grid;
 }
 
- div.gift:hover {
+div.gift:hover {
   background: $secondary;
 }
 
@@ -95,14 +95,14 @@ $secondary: #8ed5e6;
   cursor: pointer;
 }
 
-.plus-mobile{
+.plus-mobile {
   height: 256px;
   border: none;
   display: flex;
   cursor: pointer;
 }
 
-.card-deck .card .card-footer{
+.card-deck .card .card-footer {
   background-color: inherit;
   border-top: none;
 }
@@ -111,30 +111,30 @@ $secondary: #8ed5e6;
   pointer-events: none;
 }
 
-.flex-center{
-  flex:1;
+.flex-center {
+  flex: 1;
 }
 
-.truncate{
+.truncate {
   display: -webkit-box;
   max-width: inherit;
   margin: 0 auto;
-  -webkit-line-clamp:7;
+  -webkit-line-clamp: 7;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.card-deck .card-expanded{
-    max-width: initial;
-    max-height: initial;
-    min-width: 94%;
-    margin-left: 3%;
-    margin-right: 3%;
-    animation: forwards;
-    text-align: center;
+.card-expanded {
+  max-width: initial;
+  max-height: initial;
+  min-width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;
+  animation: forwards;
+  text-align: center;
 }
 
-.card-expanded .card-text{
+.card-expanded .card-text {
   text-align: left;
 }

@@ -72,11 +72,92 @@ class MyEvent {
       console.log(error);
       return false;
     }
+  }
+  
+  getCodes = async () => {
+    const url = config.server_address + config.server_port + routes.codes;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.token,
+          "eventId": this.id
+        }
+      });
+      if (response.status === 200) {
+        return response.json();
+      }
+      else if (response.status === 401) {
+        //console.log(401);
+        return false;
+      }
+      else return false;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
 
+  joinEvent = async (code) => {
+    const url = config.server_address + config.server_port + routes.joinEvent;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.token,
+          "code": code
+        },
+        body: null
+      });
+      if (response.status === 200) {
+        return true;
+      }
+      else if (response.status === 401) {
+        //console.log(401);
+        return false;
+      }
+      else return false;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
-  catch(error) {
-    console.log(error);
-    return false;
+
+  createCode = async (name) => {
+    const url = config.server_address + config.server_port + routes.codes;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.token
+        },
+        body: JSON.stringify({
+          event_id: this.id,
+          name: name
+        }),
+      });
+      if (response.status === 201) {
+        return true;
+      }
+      else if (response.status === 401) {
+        //console.log(401);
+        return false;
+      }
+      else return false;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
+
 }
 export default MyEvent;
