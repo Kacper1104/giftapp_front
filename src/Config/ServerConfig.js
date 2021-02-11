@@ -1,6 +1,6 @@
 const config = {
-  server_address: "http://localhost",
-  server_port: ":6060",
+  server_address: "https://wesele-kk.herokuapp.com/",
+  server_port: "",
 };
 const routes = { 
   register: "/users", 
