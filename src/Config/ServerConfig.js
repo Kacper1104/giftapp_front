@@ -1,5 +1,5 @@
 const config = {
-  server_address: "https://wesele-kk.herokuapp.com",
+  server_address: process.env.BACKEND_URL,
   server_port: "",
 };
 const routes = { 
