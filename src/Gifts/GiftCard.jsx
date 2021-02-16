@@ -4,6 +4,7 @@ import { CardBody } from 'react-bootstrap/Card';
 import Gift from "../ViewModel/Gift"
 import ReserveGift from './ReserveGift';
 import { isMobile } from "react-device-detect";
+import {cloudinaryConfig} from "../Config/ServerConfig";
 
 
 class GiftCard extends Component {
@@ -11,7 +12,10 @@ class GiftCard extends Component {
         super(props);
         this.state = {
             data: undefined,
-            isExpanded: false
+            isExpanded: false,
+            image: this.props.gift.picture ? 
+                this.props.gift.picture.replace("upload", "upload/h_159,w_254,c_fill") :
+                require("../img/gift.png")
         };
         this.cardRef = React.createRef();
         this.imageRef = React.createRef();
@@ -81,7 +85,7 @@ class GiftCard extends Component {
     render() {
         return (
             <Card ref={this.cardRef} className={isMobile ? "gift mx-auto" : "gift"}>
-                <Card.Img ref={this.imageRef} variant="top" src={require("../img/gift.png")} />
+                <Card.Img ref={this.imageRef} variant="top" src={this.state.image} />
                 <Card.Body className="">
                     <Card.Title>{this.props.gift.gift_name}{this.props.isOrganiser ? undefined : this.props.gift.user_res === 1 ?
                         (this.props.gift.res_max_contributors > 1 ?

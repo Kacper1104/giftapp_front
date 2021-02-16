@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.4.1",
+    "cloudinary-react": "^1.6.8",
     "create-react-class": "^15.7.0",
     "jquery": "^3.4.1",
     "node-sass": "^4.13.1",
@@ -15,6 +16,7 @@
     "react-datepicker": "^3.3.0",
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.12.0",
+    "react-images-upload": "^1.2.8",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "resolve-url-loader": "^3.1.1"

@@ -21,7 +21,7 @@ class GiftList extends Component {
     printRow = (data) => {
         return data.map((row, index) => {
             const gift = new Gift(row.gift_id, row.gift_name, row.gift_description,
-                row.gift_changed_date, row.res_max_contributors, row.res_changed_date, row.is_reserved, row.is_user_res, row.res_count); //deconstruction
+                row.gift_changed_date, row.res_max_contributors, row.res_changed_date, row.is_reserved, row.is_user_res, row.res_count, row.gift_picture); //deconstruction
             return (
                 this.state.clickedId === gift.gift_id ?
                     <ReserveGift gift={gift} reserveGift={(gift, isGroup, phone, number) => { this.setState({ clickedId: undefined }); this.props.reserveGift(gift, isGroup, phone, number); }} cancelReservation={() => this.setState({ clickedId: undefined })} /> :

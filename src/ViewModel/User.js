@@ -22,6 +22,8 @@ class User {
 
   signIn = async (password) => {
     const url = config.server_address + config.server_port + routes.signIn;
+    
+    console.log("xd");
     try {
       const response = await fetch(url, {
         method: "POST",

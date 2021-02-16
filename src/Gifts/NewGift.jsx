@@ -3,6 +3,7 @@ import { Form, Button, Card } from "react-bootstrap"
 import "../custom.scss";
 import { isMobile } from "react-device-detect";
 import Gift from "../ViewModel/Gift";
+import ImageUploader from 'react-images-upload';
 
 class NewGift extends Component {
     constructor(props) {
@@ -10,10 +11,23 @@ class NewGift extends Component {
         this.state = {
             validated: false,
             fields: {},
-            errors: {}
+            errors: {},
+            pictures: []
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
+
+    onDrop(picture) {
+        this.setState({
+            pictures: picture,
+        });
+        //console.log(this.state.pictures.concat(picture));
+        //const gift = new Gift();
+        //gift.changeImage(null, this.state.pictures.concat(picture)[0]).then((url) => {});
+    }
+
+    uploadPicture(){}
 
     handleValidation() {
         let fields = this.state.fields;
@@ -40,7 +54,22 @@ class NewGift extends Component {
             //console.log('Validation failed!');
         } else {
             const newGift = new Gift();
-            newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"]).then((response) => !response ? window.location.href = "/error" : this.props.handleCreate());
+            //newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"]).then((response) => !response ? window.location.href = "/error" : this.props.handleCreate());
+            newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"]).then((gift_id) => {
+                if(!gift_id) {
+                    window.location.href = "/error";
+                }
+                else {
+                    if(this.state.pictures.length === 0) {
+                        this.props.handleCreate();
+                    }
+                    else {
+                        newGift.uploadImage(this.state.pictures[0]).then((picture_url) => {
+                            newGift.changeImage(gift_id, picture_url).then(this.props.handleCreate());
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -60,6 +89,16 @@ class NewGift extends Component {
             <Card className={isMobile ? "mx-auto pt-4 card-expanded" : "pt-4 card-expanded"} key="button" >
                 <Card.Body><Card.Title>Nowy prezent</Card.Title>
                     <Form noValidate className="card-text">
+                    <ImageUploader
+                        withIcon={true}
+                        buttonText='Wybierz obrazek'
+                        fileSizeError="Zbyt duży rozmiar pliku."
+                        fileTypeError="nie jest odpowiednim rozszerzeniem pliku."
+                        label="Maksymalny rozmiar pliku: 5MB, akceptowane rozszerzenia: jpg, gif, png"
+                        onChange={this.onDrop}
+                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                        maxFileSize={5242880}
+                    />
                         <Form.Group controlId="formBasicName">
                             <Form.Label>Nazwa prezentu</Form.Label>
                             <Form.Control
