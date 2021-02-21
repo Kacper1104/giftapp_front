@@ -11,7 +11,10 @@ class Gift {
 		is_reserved,
 		user_res,
 		res_count,
-		pictureURL
+		pictureURL,
+		gift_price,
+		gift_model,
+		gift_link
 	) {
 		this.gift_id = gift_id;
 		this.gift_name = gift_name;
@@ -23,9 +26,12 @@ class Gift {
 		this.user_res = user_res;
 		this.res_count = res_count;
 		this.picture = pictureURL;
+		this.gift_price = gift_price;
+		this.gift_model = gift_model;
+		this.gift_link = gift_link;
 	}
 
-	create = async (event_id, name, desctiption) => {
+	create = async (event_id, name, desctiption, price, model, link) => {
 		const url = config.server_address + config.server_port + routes.gifts;
 		try {
 			const response = await fetch(url, {
@@ -38,7 +44,10 @@ class Gift {
 				body: JSON.stringify({
 					event_id: event_id,
 					name: name,
-					description: desctiption
+					description: desctiption,
+					price: price,
+					model: model,
+					link: link
 				})
 			});
 			if (response.status === 201) {

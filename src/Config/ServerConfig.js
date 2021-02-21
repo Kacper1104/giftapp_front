@@ -13,6 +13,7 @@ const config = {
 const routes = { 
   register: "/users", 
   signIn: "/auth", 
+  auth: "/auth",
   events: "/events", 
   gifts: "/gifts", 
   reservations: "/reservations", 

@@ -16,6 +16,7 @@ class NewGift extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.validateURL = this.validateURL.bind(this);
     }
 
     onDrop(picture) {
@@ -27,7 +28,15 @@ class NewGift extends Component {
         //gift.changeImage(null, this.state.pictures.concat(picture)[0]).then((url) => {});
     }
 
-    uploadPicture(){}
+    validateURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
+      }
 
     handleValidation() {
         let fields = this.state.fields;
@@ -44,6 +53,16 @@ class NewGift extends Component {
             formIsValid = false;
             errors["description"] = "Opis prezentu nie może być pusta.";
         }
+        //link
+        if (fields["link"] && !this.validateURL(fields["link"])) {
+            formIsValid = false;
+            errors["link"] = "Link powinien zawierać adres URL.";
+        }
+        //price
+        if (fields["price"] && !/^\d{1,9}(?:[,.]?\d{0,2})?$/.test(fields["price"])) {
+            formIsValid = false;
+            errors["price"] = "Cena powinna być liczbą z dokładnością do 2 miejsc po przecinku.";
+        }
 
         this.setState({ errors: errors, validated: true });
         return formIsValid;
@@ -54,8 +73,7 @@ class NewGift extends Component {
             //console.log('Validation failed!');
         } else {
             const newGift = new Gift();
-            //newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"]).then((response) => !response ? window.location.href = "/error" : this.props.handleCreate());
-            newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"]).then((gift_id) => {
+            newGift.create(this.props.eventId, this.state.fields["name"], this.state.fields["description"], this.state.fields["price"], this.state.fields["model"], this.state.fields["link"]).then((gift_id) => {
                 if(!gift_id) {
                     window.location.href = "/error";
                 }
@@ -104,7 +122,7 @@ class NewGift extends Component {
                             <Form.Control
                                 name="name"
                                 type="name"
-                                value={this.state.fields["name"]}
+                                defaultValue ={this.state.fields["name"]}
                                 onChange={this.handleChange.bind(this, "name")}
                                 placeholder="Wpisz nazwę prezentu"
                                 isInvalid={this.state.errors["name"] ? true : false}
@@ -113,19 +131,61 @@ class NewGift extends Component {
                                 {this.state.errors["name"]}
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="formBasicName">
+                        <Form.Group controlId="formBasicDescrption">
                             <Form.Label>Opis</Form.Label>
                             <Form.Control
                                 name="description"
                                 type="description"
                                 as="textarea"
-                                value={this.state.fields["description"]}
+                                defaultValue ={this.state.fields["description"]}
                                 onChange={this.handleChange.bind(this, "description")}
                                 placeholder="Opisz prezent"
                                 isInvalid={this.state.errors["description"] ? true : false}
                             />
                             <Form.Control.Feedback type="invalid">
                                 {this.state.errors["description"]}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="formBasicLink">
+                            <Form.Label>Link</Form.Label>
+                            <Form.Control
+                                name="link"
+                                type="link"
+                                defaultValue ={this.state.fields["link"]}
+                                onChange={this.handleChange.bind(this, "link")}
+                                placeholder="Wpisz link do prezentu"
+                                isInvalid={this.state.errors["link"] ? true : false}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.errors["link"]}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="formBasicModel">
+                            <Form.Label>Nazwa modelu</Form.Label>
+                            <Form.Control
+                                name="model"
+                                type="model"
+                                defaultValue ={this.state.fields["model"]}
+                                onChange={this.handleChange.bind(this, "model")}
+                                placeholder="Wpisz nazwę modelu produktu"
+                                isInvalid={this.state.errors["model"] ? true : false}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.errors["model"]}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="formBasicPrice">
+                            <Form.Label>Cena (około)</Form.Label>
+                            <Form.Control
+                                name="price"
+                                type="price"
+                                defaultValue ={this.state.fields["price"]}
+                                onChange={this.handleChange.bind(this, "price")}
+                                placeholder="Wpisz przybliżoną cenę produktu"
+                                isInvalid={this.state.errors["price"] ? true : false}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.errors["price"]}
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Form>

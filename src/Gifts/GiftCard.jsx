@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { Card, Button, Badge, Spinner, Table, ListGroup } from "react-bootstrap";
-import { CardBody } from 'react-bootstrap/Card';
-import Gift from "../ViewModel/Gift"
-import ReserveGift from './ReserveGift';
+import { Card, Button, Badge, Spinner, Table, ListGroup, Container, Row, Col } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
-import {cloudinaryConfig} from "../Config/ServerConfig";
 
 
 class GiftCard extends Component {
@@ -14,7 +10,7 @@ class GiftCard extends Component {
             data: undefined,
             isExpanded: false,
             image: this.props.gift.picture ? 
-                this.props.gift.picture.replace("upload", "upload/h_159,w_254,c_fill") :
+            this.props.gift.picture.replace("upload", "upload/h_159,w_254,c_fill") :
                 require("../img/gift.png")
         };
         this.cardRef = React.createRef();
@@ -24,16 +20,18 @@ class GiftCard extends Component {
     expandCard = () => {
         this.cardRef.current.classList.remove("gift");
         this.cardRef.current.classList.add("card-expanded");
-        this.imageRef.current.style.display = "none";
+        //this.imageRef.current.style.display = "none";
         this.setState({ isExpanded: true });
-        this.props.gift.getReservations(this.props.gift.gift_id)
-            .then(json => this.setState({ data: json }));
+        if(!this.props.isOrganiser) {
+            this.props.gift.getReservations(this.props.gift.gift_id)
+                .then(json => this.setState({ data: json }));
+        }
     }
 
     collapseCard = () => {
         this.cardRef.current.classList.remove("card-expanded");
         this.cardRef.current.classList.add("gift");
-        this.imageRef.current.style.display = "initial";
+        //this.imageRef.current.style.display = "initial";
         this.setState({ isExpanded: false, data: undefined });
     }
 
@@ -42,6 +40,18 @@ class GiftCard extends Component {
         this.props.gift.unreserve().then(() => { this.props.refreshList() });;
     }
 
+    giftDetails = () => {
+        return (
+        <Card.Text>
+            <ListGroup responsive = "md" variant="flush">
+                <ListGroup.Item>Opis: {this.props.gift.gift_description}</ListGroup.Item>
+                <ListGroup.Item>Link: {this.props.gift.gift_link ? <a href = {this.props.gift.gift_link}>{this.props.gift.gift_link}</a> : "-"}</ListGroup.Item>
+                <ListGroup.Item>Model: {this.props.gift.gift_model ? this.props.gift.gift_model : "-"}</ListGroup.Item>
+                <ListGroup.Item>Cena (około): {this.props.gift.gift_price ? this.props.gift.gift_price+" zł" : "-"}</ListGroup.Item>
+
+            </ListGroup>
+        </Card.Text>);
+    }
 
     reservationTable() {
         const data = this.state.data;
@@ -85,7 +95,7 @@ class GiftCard extends Component {
     render() {
         return (
             <Card ref={this.cardRef} className={isMobile ? "gift mx-auto" : "gift"}>
-                <Card.Img ref={this.imageRef} variant="top" src={this.state.image} />
+                {!this.state.isExpanded ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image}/> : undefined }
                 <Card.Body className="">
                     <Card.Title>{this.props.gift.gift_name}{this.props.isOrganiser ? undefined : this.props.gift.user_res === 1 ?
                         (this.props.gift.res_max_contributors > 1 ?
@@ -98,12 +108,26 @@ class GiftCard extends Component {
                                     <Badge variant="danger" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
                                     <Badge variant="danger" className="pull-right">Zajęty</Badge>)) :
                             <Badge variant="info" className="pull-right">Wolny</Badge>)}</Card.Title>
-
-                    <Card.Text className={this.state.isExpanded ? undefined : "truncate"}>{this.props.gift.gift_description}</Card.Text>
-                    {this.state.isExpanded && this.props.gift.is_reserved ?
-                        this.state.data === undefined ?
-                            <Spinner animation="border" role="status"><span className="sr-only">Ładowanie...</span></Spinner> :
-                            this.reservationTable() : undefined}
+                    {this.state.isExpanded 
+                        ? <Container fluid>
+                            <Row>
+                                <Col md={4}> 
+                                <Card.Img ref={this.imageRef} variant="top" src={this.props.gift.picture} />
+                                </Col>
+                                <Col md={8}>
+                                    {this.props.isOrganiser  
+                                        ? this.giftDetails()  
+                                        : this.props.gift.is_reserved 
+                                            ? this.state.data === undefined 
+                                                ? <Spinner animation="border" role="status">
+                                                    <span className="sr-only">Ładowanie...</span>
+                                                    </Spinner> 
+                                                : this.reservationTable()  
+                                            : undefined}
+                                </Col> 
+                            </Row>
+                        </Container> 
+                        : <Card.Text className={this.state.isExpanded ? undefined : "truncate"}>{this.props.gift.gift_description}</Card.Text>}
                 </Card.Body>
                 <Card.Footer>
                     {this.props.isOrganiser ? undefined : (this.props.gift.is_reserved === 0 ?
