@@ -17,9 +17,11 @@ class Menu extends Component {
             {this.props.loggedIn ? <Nav.Link href="/events">Moje wydarzenia</Nav.Link> :
             <Nav.Link href="/login">Zaloguj</Nav.Link>}
           </Nav>
-          <Nav className="justify-content-end">
-           {"Zalogowano jako: "+this.props.name}
-        </Nav>
+          {this.props.loggedIn ?
+            <Nav className="justify-content-end">
+              {"Zalogowano jako: "+this.props.name}
+            </Nav> :
+            undefined}
         </Navbar.Collapse>
       </Navbar>
     );
