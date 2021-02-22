@@ -1,4 +1,4 @@
-import {} from "dotenv/config";
+require("dotenv").config();
 
 const cloudinaryConfig = {
 	cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || "hwvc60mro",
