@@ -1,4 +1,4 @@
-require("dotenv").config();
+import {} from "dotenv/config";
 
 const cloudinaryConfig = {
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "hwvc60mro",
