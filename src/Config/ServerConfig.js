@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const cloudinaryConfig = {
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "hwvc60mro",
 	api_key: process.env.CLOUDINARY_API_KEY || "637946998665293",
