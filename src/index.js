@@ -7,14 +7,13 @@ import Menu from "./Components/Menu";
 import SignIn from "./Components/SignIn";
 import Events from "./Events/Events";
 import RegisterUser from "./Components/RegisterUser";
-import { Home } from "./Components/Home";
 import User from "./ViewModel/User";
 
 class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			signedIn: false
+			loggedIn: false
 		};
 	}
 
@@ -26,7 +25,7 @@ class Main extends Component {
 	componentDidMount = () => {
 		this.checkUserLoggedIn().then((user) =>
 			this.setState({
-				signedIn: user ? true : false,
+				loggedIn: user ? true : false,
 				name: user.name,
 				email: user.email
 			})
@@ -37,13 +36,13 @@ class Main extends Component {
 		return (
 			<div className="App">
 				<Menu
-					loggedIn={this.state.signedIn ? this.state.signedIn : false}
+					loggedIn={this.state.loggedIn ? this.state.loggedIn : false}
 					name={this.state.name}
 					email={this.state.email}
 				/>
 				<Switch>
 					<Route exact path="/">
-						{this.state.signedIn ? <Events /> : <SignIn />}
+						{this.state.loggedIn ? <Events /> : <SignIn />}
 					</Route>
 					<Route exact path="/events">
 						<Events />
