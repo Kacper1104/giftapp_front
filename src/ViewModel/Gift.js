@@ -112,7 +112,7 @@ class Gift {
 		}
 	};
 
-	reserve = async (gift_id, max_users, contact_number, event_id) => {
+	reserve = async (gift_id, max_users, contact_number, event_id, description) => {
 		const url =
 			config.server_address + config.server_port + routes.reservations;
 		try {
@@ -127,7 +127,8 @@ class Gift {
 					event_id: event_id,
 					gift_id: gift_id,
 					max_users: max_users,
-					contact_number: contact_number
+					contact_number: contact_number,
+					description: description
 				})
 			});
 			if (response.status === 201) {

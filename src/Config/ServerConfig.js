@@ -1,4 +1,5 @@
 require("dotenv").config();
+// && rm build/static/js/*.map //DODAĆ DO PACKAGE JSON 
 
 const cloudinaryConfig = {
 	cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || "hwvc60mro",
