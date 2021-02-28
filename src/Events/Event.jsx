@@ -50,7 +50,7 @@ class Event extends Component {
             <Tab eventKey="gifts" title="Prezenty">
               <GiftsList
                 data={this.state.data}
-                reserveGift={(gift, isGroup, phone, number) => this.reserveGift(gift, isGroup, phone, number)}
+                reserveGift={(gift, isGroup, phone, number, description) => this.reserveGift(gift, isGroup, phone, number, description)}
                 isOrganiser={this.props.isOrganiser}
                 refreshList={this.fetchData}
                 eventId={this.props.eventId}
