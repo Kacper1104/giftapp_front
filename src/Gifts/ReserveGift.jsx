@@ -121,7 +121,7 @@ class ReserveGift extends Component {
                     }
                 </Card.Body>
                 <Card.Footer>
-                    <Button variant="secondary" type="button" onClick={() => this.props.reserveGift(this.props.gift, this.state.fields["group"], this.state.fields["phone"], this.state.fields["number"])} className={this.props.isMobile ? "btn-block" : "pull-left"}>Zarezerwuj</Button>
+                    <Button variant="secondary" type="button" onClick={() => this.props.reserveGift(this.props.gift, this.state.fields["group"], this.state.fields["phone"], this.state.fields["number"], this.state.fields["description"])} className={this.props.isMobile ? "btn-block" : "pull-left"}>Zarezerwuj</Button>
                     <Button variant="link" type="button" onClick={this.props.cancelReservation} className={this.props.isMobile ? "btn-block" : "pull-right"}>Anuluj</Button>
                 </Card.Footer>
             </Card >
