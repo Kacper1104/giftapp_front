@@ -39,7 +39,7 @@ class Event extends Component {
       (isGroup ?
         number :
         1);
-    console.lob(description;)
+    console.log(description);
     gift.reserve(gift.gift_id, gift.is_reserved ? gift.res_max_contributors : max_contributors, phone, this.props.eventId, description).then(() => this.fetchData());
   }
 
