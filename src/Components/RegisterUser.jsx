@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import MyModal from "./MyModal"
 import User from "../ViewModel/User";
 import "../custom.scss";
+import { isMobile } from "react-device-detect";
 
 class RegisterUser extends Component {
   constructor(props) {
@@ -86,7 +87,7 @@ class RegisterUser extends Component {
     user.email = this.state.fields["email"];
     user.register(this.state.fields["password"]).then((result) => {
       if (result === 201) {
-        window.location.href = "/login";
+        window.location.href = "/events";
       }
       else if (result === 409) {
         console.log("Could not register!");
@@ -102,7 +103,7 @@ class RegisterUser extends Component {
 
   render() {
     return (
-      <div className="body-form">
+      <div className={isMobile ? "body-form login-form" : "body-form login-form login-border"}>
         <MyModal
           show={this.state.showModal}
           title={this.state.modalTitle}
@@ -167,9 +168,11 @@ class RegisterUser extends Component {
               {this.state.errors["repeatPassword"]}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-            Zarejestruj
+          <div className="confirm-buttons">
+            <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+              Zarejestruj
           </Button>
+          </div>
         </Form>
       </div>
     );

@@ -39,7 +39,7 @@ class Event extends Component {
       (isGroup ?
         number :
         1);
-    console.log(description);
+    //console.log(description);
     gift.reserve(gift.gift_id, gift.is_reserved ? gift.res_max_contributors : max_contributors, phone, this.props.eventId, description).then(() => this.fetchData());
   }
 
@@ -47,7 +47,7 @@ class Event extends Component {
     return (
       <div className="body-form">
         {this.props.isOrganiser ?
-          <Tabs defaultActiveKey="gifts" id="uncontrolled-tab">
+          <Tabs defaultActiveKey="gifts" id="uncontrolled-tab" style={{ "margin-bottom": "10px" }}>
             <Tab eventKey="gifts" title="Prezenty">
               <GiftsList
                 data={this.state.data}
@@ -76,11 +76,12 @@ class Event extends Component {
           :
           <GiftsList
             data={this.state.data}
-            reserveGift={(gift, isGroup, phone, number) => this.reserveGift(gift, isGroup, phone, number)}
+            reserveGift={(gift, isGroup, phone, number, description) => this.reserveGift(gift, isGroup, phone, number, description)}
             isOrganiser={this.props.isOrganiser}
             refreshList={this.fetchData}
             eventId={this.props.eventId}
-          />}
+          />
+        }
       </div>
     );
   }

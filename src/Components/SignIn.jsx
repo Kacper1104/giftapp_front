@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import MyModal from "./MyModal";
 import User from "../ViewModel/User";
 import "../custom.scss";
+import { isMobile } from "react-device-detect";
 
 class SignIn extends Component {
   constructor(props) {
@@ -74,7 +75,7 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div className="body-form login-form">
+      <div className={isMobile ? "body-form login-form" : "body-form login-form login-border"}>
         <MyModal
           show={this.state.showModal}
           body={this.state.modalBody}
@@ -109,10 +110,12 @@ class SignIn extends Component {
               {this.state.errors["password"]}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-            Zaloguj
+          <div className="confirm-buttons">
+            <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+              Zaloguj
           </Button>
-          <Button variant="link" type="button" onClick={() => window.location.href = "/register"}>Zarejestruj się</Button>
+            <Button variant="link" type="button" onClick={() => window.location.href = "/register"}>Zarejestruj się</Button>
+          </div>
         </Form>
       </div>
     );

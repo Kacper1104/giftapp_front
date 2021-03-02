@@ -48,6 +48,22 @@ $secondary: #8ed5e6;
 
 .login-form {
 	max-width: 500px;
+	margin: auto;
+	margin-top: 10%;
+	padding: 15px 15px 15px;
+	
+}
+
+.login-border{
+	border-color: $secondary;
+	border-width: 25px;
+	border-style: inset;
+	border-radius: 5%;
+}
+
+.confirm-buttons{
+	border-top: 1px solid $secondary;
+	padding-top: 15px;
 }
 
 .card {
