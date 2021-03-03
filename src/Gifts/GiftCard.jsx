@@ -9,8 +9,8 @@ class GiftCard extends Component {
         this.state = {
             data: undefined,
             isExpanded: false,
-            image: this.props.gift.picture ? 
-            this.props.gift.picture.replace("upload", "upload/h_159,w_254,c_fill") :
+            image: this.props.gift.picture ?
+                this.props.gift.picture.replace("upload", "upload/h_159,w_254,c_fill") :
                 require("../img/gift.png")
         };
         this.cardRef = React.createRef();
@@ -22,7 +22,7 @@ class GiftCard extends Component {
         this.cardRef.current.classList.add("card-expanded");
         //this.imageRef.current.style.display = "none";
         this.setState({ isExpanded: true });
-        if(!this.props.isOrganiser) {
+        if (!this.props.isOrganiser) {
             this.props.gift.getReservations(this.props.gift.gift_id)
                 .then(json => this.setState({ data: json }));
         }
@@ -42,15 +42,15 @@ class GiftCard extends Component {
 
     giftDetails = () => {
         return (
-        <Card.Text>
-            <ListGroup responsive = "md" variant="flush">
-                <ListGroup.Item>Opis: {this.props.gift.gift_description}</ListGroup.Item>
-                <ListGroup.Item>Link: {this.props.gift.gift_link ? <a href = {this.props.gift.gift_link}>{this.props.gift.gift_link}</a> : "-"}</ListGroup.Item>
-                <ListGroup.Item>Model: {this.props.gift.gift_model ? this.props.gift.gift_model : "-"}</ListGroup.Item>
-                <ListGroup.Item>Cena (około): {this.props.gift.gift_price ? this.props.gift.gift_price+" zł" : "-"}</ListGroup.Item>
+            <Card.Text>
+                <ListGroup responsive="md" variant="flush">
+                    <ListGroup.Item>Opis: {this.props.gift.gift_description}</ListGroup.Item>
+                    <ListGroup.Item>Link: {this.props.gift.gift_link ? <a href={this.props.gift.gift_link}>{this.props.gift.gift_link}</a> : "-"}</ListGroup.Item>
+                    <ListGroup.Item>Model: {this.props.gift.gift_model ? this.props.gift.gift_model : "-"}</ListGroup.Item>
+                    <ListGroup.Item>Cena (około): {this.props.gift.gift_price ? this.props.gift.gift_price + " zł" : "-"}</ListGroup.Item>
 
-            </ListGroup>
-        </Card.Text>);
+                </ListGroup>
+            </Card.Text>);
     }
 
     reservationTable() {
@@ -95,7 +95,7 @@ class GiftCard extends Component {
     render() {
         return (
             <Card ref={this.cardRef} className={isMobile ? "gift mx-auto" : "gift"}>
-                {!this.state.isExpanded ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image}/> : undefined }
+                {!this.state.isExpanded ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image} /> : undefined}
                 <Card.Body className="">
                     <Card.Title>{this.props.gift.gift_name}{this.props.isOrganiser ? undefined : this.props.gift.user_res === 1 ?
                         (this.props.gift.res_max_contributors > 1 ?
@@ -108,25 +108,26 @@ class GiftCard extends Component {
                                     <Badge variant="danger" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
                                     <Badge variant="danger" className="pull-right">Zajęty</Badge>)) :
                             <Badge variant="info" className="pull-right">Wolny</Badge>)}</Card.Title>
-                    {this.state.isExpanded 
+                    {this.state.isExpanded
                         ? <Container fluid>
                             <Row>
-                                <Col md={4}> 
-                                <Card.Img ref={this.imageRef} variant="top" src={this.props.gift.picture} />
+                                <Col md={4}>
+                                    <Card.Img ref={this.imageRef} variant="top" src={this.props.gift.picture} />
                                 </Col>
                                 <Col md={8}>
-                                    {this.props.isOrganiser  
-                                        ? this.giftDetails()  
-                                        : this.props.gift.is_reserved 
-                                            ? this.state.data === undefined 
+                                    {this.giftDetails()}
+                                    {this.props.isOrganiser
+                                        ? undefined
+                                        : this.props.gift.is_reserved
+                                            ? this.state.data === undefined
                                                 ? <Spinner animation="border" role="status">
                                                     <span className="sr-only">Ładowanie...</span>
-                                                    </Spinner> 
-                                                : this.reservationTable()  
+                                                </Spinner>
+                                                : this.reservationTable()
                                             : undefined}
-                                </Col> 
+                                </Col>
                             </Row>
-                        </Container> 
+                        </Container>
                         : <Card.Text className={this.state.isExpanded ? undefined : "truncate"}>{this.props.gift.gift_description}</Card.Text>}
                 </Card.Body>
                 <Card.Footer>
