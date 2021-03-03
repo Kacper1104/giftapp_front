@@ -9,7 +9,6 @@ export const EventsList = props => {
             const { event_id, name, start_date, role } = event //destructuring
             return (
                 <tr key={event_id} onClick={() => role === "Organiser" ? props.callback(event_id, true) : props.callback(event_id, false)}>
-                    <td>{event_id}</td>
                     <td>{name}</td>
                     <td>{new Date(start_date).toLocaleDateString()}</td>
                     <td>{role === "Organiser" ? "Organizator" : "Gość"}</td>
@@ -23,10 +22,9 @@ export const EventsList = props => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <td>ID</td>
-                        <td>Nazwa</td>
+                        <td>Nazwa wydarzenia</td>
                         <td>Data wydarzenia</td>
-                        <td>Rola</td>
+                        <td>Twoja rola w wydarzeniu</td>
                     </tr>
                 </thead>
                 <tbody>
