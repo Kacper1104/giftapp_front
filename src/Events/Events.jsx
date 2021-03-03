@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, ButtonGroup, PageHeader } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import User from "../ViewModel/User";
 import Event from "./Event"
 import NewEvent from "./NewEvent";
@@ -44,9 +44,9 @@ class Events extends Component {
   render() {
     return !this.state.showForm ? (this.state.eventSelected === true ? <Event eventId={this.state.eventId} isOrganiser={this.state.isOrganiser} /> : (
       <div className="body-form">
-        <PageHeader>
+        <h1>
           Moje wydarzenia <small> kliknij "dołącz do wydarzenia" i wpisz swój kod lub wybierz wydarzenie z listy poniżej </small>
-        </PageHeader>;
+        </h1>;
         {this.state.joinEvent ?
           <JoinEvent onJoin={() => this.fetchData()} onCancel={() => this.setState({ joinEvent: false })} />
           :
