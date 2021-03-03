@@ -45,11 +45,12 @@ class Events extends Component {
     return !this.state.showForm ? (this.state.eventSelected === true ? <Event eventId={this.state.eventId} isOrganiser={this.state.isOrganiser} /> : (
       <div className="body-form">
         {this.state.joinEvent ?
-          <JoinEvent onJoin={() => this.fetchData()} onCancel={() => this.setState({joinEvent: false})}/>
+          <JoinEvent onJoin={() => this.fetchData()} onCancel={() => this.setState({ joinEvent: false })} />
           :
           <ButtonGroup vertical>
             <Button className="pull-left list-button" variant="success" onClick={() => this.setState({ joinEvent: true })} >Dołącz do wydarzenia</Button>
-            <Button className="pull-left list-button" variant="primary" onClick={() => this.setState({ showForm: true })} >Utwórz nowe wydarzenie</Button>
+            {//<Button className="pull-left list-button" variant="primary" onClick={() => this.setState({ showForm: true })} >Utwórz nowe wydarzenie</Button>
+            }
           </ButtonGroup>}
         <EventsList
           data={this.state.data}
