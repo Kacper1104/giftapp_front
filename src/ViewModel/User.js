@@ -84,7 +84,7 @@ class User {
 				},
 				body: JSON.stringify({
 					email: this.email,
-					name: this.email,
+					name: this.name,
 					password: password
 				})
 			});
