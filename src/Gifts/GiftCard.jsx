@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Badge, Spinner, Table, ListGroup, Container, Row, Col } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
+import { FaInfoCircle } from "react-icons/fa";
 
 
 class GiftCard extends Component {
@@ -20,6 +21,7 @@ class GiftCard extends Component {
     expandCard = () => {
         this.cardRef.current.classList.remove("gift");
         this.cardRef.current.classList.add("card-expanded");
+        this.cardRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
         //this.imageRef.current.style.display = "none";
         this.setState({ isExpanded: true });
         if (!this.props.isOrganiser) {
@@ -95,19 +97,22 @@ class GiftCard extends Component {
     render() {
         return (
             <Card ref={this.cardRef} className={isMobile ? "gift mx-auto" : "gift"}>
-                {!this.state.isExpanded ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image} /> : undefined}
-                <Card.Body className="">
-                    <Card.Title>{this.props.gift.gift_name}{this.props.isOrganiser ? undefined : this.props.gift.user_res === 1 ?
-                        (this.props.gift.res_max_contributors > 1 ?
-                            <Badge variant="success" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
-                            <Badge variant="success" className="pull-right">Moje</Badge>) :
-                        (this.props.gift.is_reserved === 1 ?
-                            (this.props.gift.res_count < this.props.gift.res_max_contributors ?
-                                <Badge variant="warning" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
-                                (this.props.gift.res_count > 1 ?
-                                    <Badge variant="danger" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
-                                    <Badge variant="danger" className="pull-right">Zajęty</Badge>)) :
-                            <Badge variant="info" className="pull-right">Wolny</Badge>)}</Card.Title>
+                {!this.state.isExpanded ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image} onClick={this.state.isExpanded ? this.collapseCard : this.expandCard} /> : undefined}
+                <Card.Body className="" onClick={this.state.isExpanded ? this.collapseCard : this.expandCard}>
+                    <Card.Title>
+                        {this.props.isOrganiser ? undefined : this.props.gift.user_res === 1 ?
+                            (this.props.gift.res_max_contributors > 1 ?
+                                <Badge variant="success" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
+                                <Badge variant="success" className="pull-right">Moje</Badge>) :
+                            (this.props.gift.is_reserved === 1 ?
+                                (this.props.gift.res_count < this.props.gift.res_max_contributors ?
+                                    <Badge variant="warning" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
+                                    (this.props.gift.res_count > 1 ?
+                                        <Badge variant="danger" className="pull-right">Zrzutka {this.props.gift.res_count + "/" + this.props.gift.res_max_contributors}</Badge> :
+                                        <Badge variant="danger" className="pull-right">Zajęty</Badge>)) :
+                                <Badge variant="info" className="pull-right">Wolny</Badge>)}
+                        {this.props.gift.gift_name}
+                    </Card.Title>
                     {this.state.isExpanded
                         ? <Container fluid>
                             <Row>
@@ -131,6 +136,11 @@ class GiftCard extends Component {
                         : <Card.Text className={this.state.isExpanded ? undefined : "truncate"}>{this.props.gift.gift_description}</Card.Text>}
                 </Card.Body>
                 <Card.Footer>
+                    {this.props.gift.is_reserved === 0 ?
+                        <div class="small text-success text-left mb-4">
+                            <FaInfoCircle size="17" ></FaInfoCircle> Klikając zarezerwuj możesz zorganizować zrzutkę i podzielić się kosztami prezentu!
+                        </div> :
+                        undefined}
                     {this.props.isOrganiser ? undefined : (this.props.gift.is_reserved === 0 ?
                         <Button variant="light" type="button" onClick={this.props.setClickedId} className="pull-left"> Zarezerwuj </Button> :
                         (this.props.gift.res_count < this.props.gift.res_max_contributors && !this.props.gift.user_res ?

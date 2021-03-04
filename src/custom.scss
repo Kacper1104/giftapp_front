@@ -88,7 +88,7 @@ $secondary: #8ed5e6;
 }
 
 .list-button {
-	margin-bottom: 15px;
+	//margin-bottom: 15px;
 	min-width: 80px;
 	display: block;
 }
@@ -121,6 +121,15 @@ div.gift:hover {
 .card-deck .card .card-footer {
 	background-color: inherit;
 	border-top: none;
+}
+
+.card-deck .card .card-title:hover{
+	border-radius: 2%;
+	cursor: pointer;
+}
+
+.card-deck .card .card-img-top:hover{
+	cursor: pointer;
 }
 
 .nohover {

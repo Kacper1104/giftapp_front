@@ -10,11 +10,28 @@ class ReserveGift extends Component {
             errors: {},
         };
         this.state.fields["group"] = false;
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
+        this.submitReservation = this.submitReservation.bind(this);
     }
 
-    handleSubmit() {
+    handleValidation() {
+        let errors = {};
+        let validationResult = true;
+        if (this.state.fields["group"] && !this.state.fields["description"]) {
+            validationResult = false;
+            errors["description"] = "Wpisz komentarz do rezerwacji. Najlepiej podaj dodatkowe dane kontaktowe, aby ułatwić innym gościom dołączenie do zrzutki.";
+        }
+        if (this.state.fields["group"] && !this.state.fields["phone"]) {
+            validationResult = false;
+            errors["description"] = "Gdy organizujesz zrzutkę, podanie numeru telefonu jest obowiązkowe.";
+        }
+        return validationResult;
+    }
 
+    submitReservation() {
+        if (this.handleValidation()) {
+            this.props.reserveGift(this.props.gift, this.state.fields["group"], this.state.fields["phone"], this.state.fields["number"], this.state.fields["description"]);
+        }
     }
 
     handleChange(field, event) {
@@ -121,7 +138,7 @@ class ReserveGift extends Component {
                     }
                 </Card.Body>
                 <Card.Footer>
-                    <Button variant="secondary" type="button" onClick={() => this.props.reserveGift(this.props.gift, this.state.fields["group"], this.state.fields["phone"], this.state.fields["number"], this.state.fields["description"])} className={this.props.isMobile ? "btn-block" : "pull-left"}>Zarezerwuj</Button>
+                    <Button variant="secondary" type="button" onClick={this.submitReservation} className={this.props.isMobile ? "btn-block" : "pull-left"}>Zarezerwuj</Button>
                     <Button variant="link" type="button" onClick={this.props.cancelReservation} className={this.props.isMobile ? "btn-block" : "pull-right"}>Anuluj</Button>
                 </Card.Footer>
             </Card >
