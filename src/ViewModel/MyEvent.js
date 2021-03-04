@@ -4,6 +4,7 @@ class MyEvent {
   constructor(
     id,
     name,
+    host,
     start_date,
     is_active,
     created_date,
@@ -13,6 +14,7 @@ class MyEvent {
   ) {
     this.id = id;
     this.name = name;
+    this.host = host;
     this.start_date = start_date;
     this.is_active = is_active;
     this.created_date = created_date;
@@ -73,7 +75,7 @@ class MyEvent {
       return false;
     }
   }
-  
+
   getCodes = async () => {
     const url = config.server_address + config.server_port + routes.codes;
     try {

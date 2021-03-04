@@ -1,17 +1,20 @@
 import React from 'react';
 import { Table, Button } from "react-bootstrap";
+import { FaRegEye } from "react-icons/fa";
 
 export const EventsList = props => {
 
     const printRow = (data) => {
         return data.map((event, index) => {
             //console.log(event);
-            const { event_id, name, start_date, role } = event //destructuring
+            const { event_id, name, host, start_date, role } = event //destructuring
             return (
                 <tr key={event_id} onClick={() => role === "Organiser" ? props.callback(event_id, true) : props.callback(event_id, false)}>
-                    <td>{name}</td>
-                    <td>{new Date(start_date).toLocaleDateString()}</td>
-                    <td>{role === "Organiser" ? "Organizator" : "Gość"}</td>
+                    <td className="align-middle">{name}</td>
+                    <td className="align-middle">{host}</td>
+                    <td className="align-middle">{new Date(start_date).toLocaleDateString()}</td>
+                    <td className="align-middle">{role === "Organiser" ? "Organizator" : "Gość"}</td>
+                    <td><Button variant="link" className="pull-right"><FaRegEye size="22" /></Button></td>
                 </tr>
             )
         });
@@ -19,12 +22,14 @@ export const EventsList = props => {
 
     return (
         <div>
-            <Table striped bordered hover>
+            <Table striped hover>
                 <thead>
                     <tr>
-                        <td>Nazwa wydarzenia</td>
-                        <td>Data wydarzenia</td>
-                        <td>Twoja rola w wydarzeniu</td>
+                        <td className="align-middle">Nazwa wydarzenia</td>
+                        <td className="align-middle">Organizator</td>
+                        <td className="align-middle">Data wydarzenia</td>
+                        <td className="align-middle">Twoja rola</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
