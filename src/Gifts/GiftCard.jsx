@@ -21,7 +21,8 @@ class GiftCard extends Component {
     expandCard = () => {
         this.cardRef.current.classList.remove("gift");
         this.cardRef.current.classList.add("card-expanded");
-        this.cardRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+        const y = this.cardRef.current.getBoundingClientRect().top + window.pageYOffset - 44;
+        window.scrollTo({ top: y, behavior: 'smooth' });
         //this.imageRef.current.style.display = "none";
         this.setState({ isExpanded: true });
         if (!this.props.isOrganiser) {
@@ -97,7 +98,9 @@ class GiftCard extends Component {
     render() {
         return (
             <Card ref={this.cardRef} className={isMobile ? "gift mx-auto" : "gift"}>
-                {!this.state.isExpanded ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image} onClick={this.state.isExpanded ? this.collapseCard : this.expandCard} /> : undefined}
+                {!this.state.isExpanded
+                    ? <Card.Img ref={this.imageRef} variant="top" src={this.state.image} onClick={this.state.isExpanded ? this.collapseCard : this.expandCard} />
+                    : undefined}
                 <Card.Body className="" onClick={this.state.isExpanded ? this.collapseCard : this.expandCard}>
                     <Card.Title>
                         {this.props.isOrganiser ? undefined : this.props.gift.user_res === 1 ?
@@ -117,7 +120,7 @@ class GiftCard extends Component {
                         ? <Container fluid>
                             <Row>
                                 <Col md={4}>
-                                    <Card.Img ref={this.imageRef} variant="top" src={this.props.gift.picture} />
+                                    <Card.Img ref={this.imageRef} variant="top" src={this.state.image} />
                                 </Col>
                                 <Col md={8}>
                                     {this.giftDetails()}
@@ -136,7 +139,7 @@ class GiftCard extends Component {
                         : <Card.Text className={this.state.isExpanded ? undefined : "truncate"}>{this.props.gift.gift_description}</Card.Text>}
                 </Card.Body>
                 <Card.Footer>
-                    {this.props.gift.is_reserved === 0 ?
+                    {!this.props.isOrganiser && this.props.gift.is_reserved === 0 ?
                         <div class="small text-success text-left mb-4">
                             <FaInfoCircle size="17" ></FaInfoCircle> Klikając zarezerwuj możesz zorganizować zrzutkę i podzielić się kosztami prezentu!
                         </div> :
