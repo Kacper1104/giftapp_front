@@ -144,12 +144,14 @@ class GiftCard extends Component {
                             <FaInfoCircle size="17" ></FaInfoCircle> Klikając zarezerwuj możesz zorganizować zrzutkę i podzielić się kosztami prezentu!
                         </div> :
                         undefined}
-                    {this.props.isOrganiser ? undefined : (this.props.gift.is_reserved === 0 ?
-                        <Button variant="light" type="button" onClick={this.props.setClickedId} className="pull-left"> Zarezerwuj </Button> :
-                        (this.props.gift.res_count < this.props.gift.res_max_contributors && !this.props.gift.user_res ?
-                            <Button variant="light" type="button" onClick={this.props.setClickedId} className="pull-left"> Dołącz </Button> :
-                            this.props.gift.user_res ?
-                                <Button variant="warning" className="pull-left" onClick={this.refreshList}>Zwolnij</Button> : undefined))}
+                    {this.props.isOrganiser
+                        ? <Button variant="danger" type="button" onClick={this.props.deleteGift} className="pull-left">Usuń</Button>
+                        : (this.props.gift.is_reserved === 0 ?
+                            <Button variant="light" type="button" onClick={this.props.setClickedId} className="pull-left"> Zarezerwuj </Button> :
+                            (this.props.gift.res_count < this.props.gift.res_max_contributors && !this.props.gift.user_res ?
+                                <Button variant="light" type="button" onClick={this.props.setClickedId} className="pull-left"> Dołącz </Button> :
+                                this.props.gift.user_res ?
+                                    <Button variant="warning" className="pull-left" onClick={this.refreshList}>Zwolnij</Button> : undefined))}
                     {this.state.isExpanded ?
                         <Button variant="link" type="button" onClick={this.collapseCard} className="pull-right"> Ukryj </Button> :
                         <Button variant="link" type="button" onClick={this.expandCard} className="pull-right"> Więcej </Button>}

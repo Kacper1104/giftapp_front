@@ -5,6 +5,7 @@ import "../custom.scss";
 import MyEvent from "../ViewModel/MyEvent";
 import { CodesList } from "./CodesList";
 import NewCode from "./NewCode";
+import MyModal from "../Components/MyModal";
 import { isMobile } from "react-device-detect";
 
 class Event extends Component {
@@ -47,32 +48,35 @@ class Event extends Component {
     return (
       <div className="body-form">
         {this.props.isOrganiser ?
-          <Tabs defaultActiveKey="gifts" id="uncontrolled-tab" style={{ "margin-bottom": "10px" }}>
-            <Tab eventKey="gifts" title="Prezenty">
-              <GiftsList
-                data={this.state.data}
-                reserveGift={(gift, isGroup, phone, number, description) => this.reserveGift(gift, isGroup, phone, number, description)}
-                isOrganiser={this.props.isOrganiser}
-                refreshList={this.fetchData}
-                eventId={this.props.eventId}
-              />
-            </Tab>
-            <Tab eventKey="invitations" title="Goście">
-              <div className="body-form">
-                {this.state.showForm ?
-                  <NewCode
-                    eventId={this.props.eventId}
-                    handleCreate={() => { this.fetchCodes() }}
-                    onCancel={() => this.setState({ showForm: false })}
-                  />
-                  :
-                  <Button className={isMobile ? "list-button btn-block" : "pull-right list-button"} variant="success" onClick={() => this.setState({ showForm: true })} > Wygeneruj kod dostępu </Button>}
-                <CodesList
-                  data={this.state.codes}
+          <div>
+            <MyModal></MyModal>
+            <Tabs defaultActiveKey="gifts" id="uncontrolled-tab" style={{ "margin-bottom": "10px" }}>
+              <Tab eventKey="gifts" title="Prezenty">
+                <GiftsList
+                  data={this.state.data}
+                  reserveGift={(gift, isGroup, phone, number, description) => this.reserveGift(gift, isGroup, phone, number, description)}
+                  isOrganiser={this.props.isOrganiser}
+                  refreshList={this.fetchData}
+                  eventId={this.props.eventId}
                 />
-              </div>
-            </Tab>
-          </Tabs>
+              </Tab>
+              <Tab eventKey="invitations" title="Goście">
+                <div className="body-form">
+                  {this.state.showForm ?
+                    <NewCode
+                      eventId={this.props.eventId}
+                      handleCreate={() => { this.fetchCodes() }}
+                      onCancel={() => this.setState({ showForm: false })}
+                    />
+                    :
+                    <Button className={isMobile ? "list-button btn-block" : "pull-right list-button"} variant="success" onClick={() => this.setState({ showForm: true })} > Wygeneruj kod dostępu </Button>}
+                  <CodesList
+                    data={this.state.codes}
+                  />
+                </div>
+              </Tab>
+            </Tabs>
+          </div>
           :
           <GiftsList
             data={this.state.data}

@@ -112,6 +112,29 @@ class Gift {
 		}
 	};
 
+	delete = async (gift_id) => {
+		const url = config.server_address + config.server_port + routes.gifts;
+		try {
+			const response = await fetch(url, {
+				method: "DELETE",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+					"x-auth-token": localStorage.token,
+					"gift_id": gift_id
+				}
+			});
+			if (response.status === 200) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
 	reserve = async (gift_id, max_users, contact_number, event_id, description) => {
 		const url =
 			config.server_address + config.server_port + routes.reservations;
