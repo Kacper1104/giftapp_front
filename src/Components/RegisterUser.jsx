@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import MyModal from "./MyModal"
 import User from "../ViewModel/User";
 import "../custom.scss";
 import { isMobile } from "react-device-detect";
+import { FaRegEye } from "react-icons/fa";
 
 class RegisterUser extends Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class RegisterUser extends Component {
       errors: {},
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.passwordInputRef = React.createRef();
+    this.repeatPasswordInputRef = React.createRef();
   }
 
   handleValidation() {
@@ -103,7 +106,7 @@ class RegisterUser extends Component {
 
   render() {
     return (
-      <div className={isMobile ? "body-form login-form" : "body-form login-form login-border"}>
+      <div className={isMobile ? "body-form login-form" : "body-form login-form text-center"}>
         <MyModal
           show={this.state.showModal}
           title={this.state.modalTitle}
@@ -111,7 +114,11 @@ class RegisterUser extends Component {
           callback={() => this.setState({ showModal: false })}
         >
         </MyModal>
-        <Form noValidate>
+        <div className="login-header">
+          <img src={require("../img/gift.png")}></img>
+          <h1 className="h3 mb-3 font-weight-normal"> Zarejestruj się</h1></div>
+        <div ></div>
+        <Form noValidate className="text-left">
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -142,36 +149,65 @@ class RegisterUser extends Component {
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Hasło</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              value={this.state.fields["password"]}
-              onChange={this.handleChange.bind(this, "password")}
-              placeholder="Wpisz swoje hasło"
-              isInvalid={this.state.errors["password"] ? true : false}
-            />
-            <Form.Control.Feedback type="invalid">
-              {this.state.errors["password"]}
-            </Form.Control.Feedback>
+            <InputGroup>
+              <Form.Control
+                ref={this.passwordInputRef}
+                name="password"
+                type="password"
+                value={this.state.fields["password"]}
+                onChange={this.handleChange.bind(this, "password")}
+                placeholder="Wpisz swoje hasło"
+                isInvalid={this.state.errors["password"] ? true : false}
+              />
+              <InputGroup.Append>
+                <div
+                  className="btn btn-outline-secondary border-left-0 border"
+                  onMouseDownCapture={() => isMobile ? undefined : this.passwordInputRef.current.type = "text"}
+                  onMouseLeave={() => isMobile ? undefined : this.passwordInputRef.current.type = "password"}
+                  onMouseUpCapture={() => isMobile ? undefined : this.passwordInputRef.current.type = "password"}
+                  onClick={() => isMobile ? this.passwordInputRef.current.type = (this.passwordInputRef.current.type === "password" ? "text" : "password") : undefined}
+                >
+                  <FaRegEye />
+                </div>
+              </InputGroup.Append>
+              <Form.Control.Feedback type="invalid">
+                {this.state.errors["password"]}
+              </Form.Control.Feedback>
+            </InputGroup>
           </Form.Group>
           <Form.Group controlId="formBasicRepeatPassword">
             <Form.Label>Wpisz ponownie swoje hasło</Form.Label>
-            <Form.Control
-              name="repeatPassword"
-              type="password"
-              value={this.state.fields["repeatPassword"]}
-              onChange={this.handleChange.bind(this, "repeatPassword")}
-              placeholder="Potwierdź swoje hasło"
-              isInvalid={this.state.errors["repeatPassword"] ? true : false}
-            />
-            <Form.Control.Feedback type="invalid">
-              {this.state.errors["repeatPassword"]}
-            </Form.Control.Feedback>
+            <InputGroup>
+              <Form.Control
+                ref={this.repeatPasswordInputRef}
+                name="repeatPassword"
+                type="password"
+                value={this.state.fields["repeatPassword"]}
+                onChange={this.handleChange.bind(this, "repeatPassword")}
+                placeholder="Potwierdź swoje hasło"
+                isInvalid={this.state.errors["repeatPassword"] ? true : false}
+              />
+              <InputGroup.Append>
+                <div
+                  className="btn btn-outline-secondary border-left-0 border"
+                  onMouseDownCapture={() => isMobile ? undefined : this.repeatPasswordInputRef.current.type = "text"}
+                  onMouseLeave={() => isMobile ? undefined : this.repeatPasswordInputRef.current.type = "password"}
+                  onMouseUpCapture={() => isMobile ? undefined : this.repeatPasswordInputRef.current.type = "password"}
+                  onClick={() => isMobile ? this.repeatPasswordInputRef.current.type = (this.repeatPasswordInputRef.current.type === "password" ? "text" : "password") : undefined}
+                >
+                  <FaRegEye />
+                </div>
+              </InputGroup.Append>
+              <Form.Control.Feedback type="invalid">
+                {this.state.errors["repeatPassword"]}
+              </Form.Control.Feedback>
+            </InputGroup>
           </Form.Group>
-          <div className="confirm-buttons">
-            <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+          <div className="confirm-buttons text-center">
+            <Button variant="primary btn-block" type="submit" onClick={this.handleSubmit}>
               Zarejestruj
           </Button>
+            <Button variant="link" type="button" onClick={() => window.location.href = "/login"}>Wróć do logowania</Button>
           </div>
         </Form>
       </div>
