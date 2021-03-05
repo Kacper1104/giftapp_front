@@ -41,7 +41,7 @@ class JoinEvent extends Component {
             //console.log('Validation failed!');
         } else {
             const event = new MyEvent();
-            event.joinEvent(this.state.fields["code"]).then((response) => !response ? this.setFieldError() : this.props.onJoin());
+            event.joinEvent(this.state.fields["code"]).then((response) => !response ? this.setFieldError() : this.props.onJoin(response.eventId));
         }
     }
 

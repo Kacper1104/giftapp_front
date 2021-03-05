@@ -117,7 +117,7 @@ class MyEvent {
         body: null
       });
       if (response.status === 200) {
-        return true;
+        return response.json();
       }
       else if (response.status === 401) {
         //console.log(401);

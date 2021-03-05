@@ -50,7 +50,7 @@ class Events extends Component {
             Kliknij "dołącz do wydarzenia" i wpisz swój kod lub wybierz wydarzenie z listy poniżej
           </p>
           {this.state.joinEvent ?
-            <JoinEvent onJoin={() => this.fetchData()} onCancel={() => this.setState({ joinEvent: false })} />
+            <JoinEvent onJoin={eventId => this.selectEvent(eventId, false)} onCancel={() => this.setState({ joinEvent: false })} />
             :
             <ButtonGroup vertical>
               <Button className="pull-left list-button" variant="success" onClick={() => this.setState({ joinEvent: true })} >Dołącz do wydarzenia</Button>
