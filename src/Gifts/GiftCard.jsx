@@ -87,7 +87,7 @@ class GiftCard extends Component {
                         return (<tr>
                             <td>{user_name}</td>
                             <td>{user_email}</td>
-                            <td>{contact_number}</td>
+                            <td>{contact_number} || {undefined} </td>
                             <td>{description}</td>
                         </tr>);
                     })}
