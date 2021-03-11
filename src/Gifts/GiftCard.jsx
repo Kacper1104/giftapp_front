@@ -119,7 +119,7 @@ class GiftCard extends Component {
 							<ListGroup.Item>{"Rezerwujący: " + user_name}</ListGroup.Item>
 							<ListGroup.Item>{"Email: " + user_email}</ListGroup.Item>
 							<ListGroup.Item>
-								{contact_number
+								{contact_number && contact_number != null
 									? "Numer telefonu: " + contact_number
 									: undefined}
 							</ListGroup.Item>
@@ -154,7 +154,11 @@ class GiftCard extends Component {
 							<tr>
 								<td>{user_name}</td>
 								<td>{user_email}</td>
-								<td>{contact_number ? contact_number : undefined}</td>
+								<td>
+									{contact_number && contact_number != null
+										? contact_number
+										: undefined}
+								</td>
 								<td>{description}</td>
 							</tr>
 						);
