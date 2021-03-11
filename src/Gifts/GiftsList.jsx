@@ -24,11 +24,17 @@ class GiftList extends Component {
                 row.gift_changed_date, row.res_max_contributors, row.res_changed_date, row.is_reserved, row.is_user_res, row.res_count, row.gift_picture, row.gift_price, row.gift_model, row.gift_link); //deconstruction
             return (
                 this.state.clickedId === gift.gift_id ?
-                    <ReserveGift gift={gift} reserveGift={(gift, isGroup, phone, number) => { this.setState({ clickedId: undefined }); this.props.reserveGift(gift, isGroup, phone, number); }} cancelReservation={() => this.setState({ clickedId: undefined })} /> :
-                    <GiftCard key={gift.gift_id} setClickedId={() => this.setClickedId(gift)} gift={gift} isOrganiser={this.props.isOrganiser} refreshList={this.props.refreshList}> </GiftCard >
+                    <ReserveGift gift={gift} reserveGift={(gift, isGroup, phone, number, description) => { this.setState({ clickedId: undefined }); this.props.reserveGift(gift, isGroup, phone, number, description); }} cancelReservation={() => this.setState({ clickedId: undefined })} /> :
+                    <GiftCard deleteGift={() => this.handleDelete(gift)} key={gift.gift_id} setClickedId={() => this.setClickedId(gift)} gift={gift} isOrganiser={this.props.isOrganiser} refreshList={this.props.refreshList}> </GiftCard >
             )
         });
     };
+
+    handleDelete = gift => {
+        gift.delete(gift.gift_id).then(result => result
+            ? this.props.refreshList()
+            : undefined);
+    }
 
     onNewGiftClick = () => {
         this.setState({ createForm: true });

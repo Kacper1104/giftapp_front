@@ -11,6 +11,7 @@ import {
 	Col
 } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
+import { FaInfoCircle } from "react-icons/fa";
 
 class GiftCard extends Component {
 	constructor(props) {
@@ -29,6 +30,23 @@ class GiftCard extends Component {
 	expandCard = () => {
 		this.cardRef.current.classList.remove("gift");
 		this.cardRef.current.classList.add("card-expanded");
+		const y =
+			this.cardRef.current.getBoundingClientRect().top +
+			window.pageYOffset -
+			44;
+		window.scrollTo({ top: y, behavior: "smooth" });
+		//this.imageRef.current.style.display = "none";
+		this.setState({ isExpanded: true });
+		if (!this.props.isOrganiser) {
+			this.props.gift
+				.getReservations(this.props.gift.gift_id)
+				.then((json) => this.setState({ data: json }));
+		}
+	};
+
+	expandCard = () => {
+		this.cardRef.current.classList.remove("gift");
+		this.cardRef.current.classList.add("card-expanded");
 		//this.imageRef.current.style.display = "none";
 		this.setState({ isExpanded: true });
 		if (!this.props.isOrganiser) {
@@ -43,13 +61,6 @@ class GiftCard extends Component {
 		this.cardRef.current.classList.add("gift");
 		//this.imageRef.current.style.display = "initial";
 		this.setState({ isExpanded: false, data: undefined });
-	};
-
-	refreshList = () => {
-		console.log(this.props.gift);
-		this.props.gift.unreserve().then(() => {
-			this.props.refreshList();
-		});
 	};
 
 	giftDetails = () => {
@@ -157,11 +168,20 @@ class GiftCard extends Component {
 		return (
 			<Card ref={this.cardRef} className={isMobile ? "gift mx-auto" : "gift"}>
 				{!this.state.isExpanded ? (
-					<Card.Img ref={this.imageRef} variant="top" src={this.state.image} />
+					<Card.Img
+						ref={this.imageRef}
+						variant="top"
+						src={this.state.image}
+						onClick={
+							this.state.isExpanded ? this.collapseCard : this.expandCard
+						}
+					/>
 				) : undefined}
-				<Card.Body className="">
+				<Card.Body
+					className=""
+					onClick={this.state.isExpanded ? this.collapseCard : this.expandCard}
+				>
 					<Card.Title>
-						{this.props.gift.gift_name}
 						{this.props.isOrganiser ? undefined : this.props.gift.user_res ===
 						  1 ? (
 							this.props.gift.res_max_contributors > 1 ? (
@@ -202,6 +222,7 @@ class GiftCard extends Component {
 								Wolny
 							</Badge>
 						)}
+						{this.props.gift.gift_name}
 					</Card.Title>
 					{this.state.isExpanded ? (
 						<Container fluid>
@@ -210,13 +231,13 @@ class GiftCard extends Component {
 									<Card.Img
 										ref={this.imageRef}
 										variant="top"
-										src={this.props.gift.picture}
+										src={this.state.image}
 									/>
 								</Col>
 								<Col md={8}>
-									{this.props.isOrganiser ? (
-										this.giftDetails()
-									) : this.props.gift.is_reserved ? (
+									{this.giftDetails()}
+									{this.props.isOrganiser ? undefined : this.props.gift
+											.is_reserved ? (
 										this.state.data === undefined ? (
 											<Spinner animation="border" role="status">
 												<span className="sr-only">Ładowanie...</span>
@@ -237,8 +258,22 @@ class GiftCard extends Component {
 					)}
 				</Card.Body>
 				<Card.Footer>
-					{this.props.isOrganiser ? undefined : this.props.gift.is_reserved ===
-					  0 ? (
+					{!this.props.isOrganiser && this.props.gift.is_reserved === 0 ? (
+						<div class="small text-success text-left mb-4">
+							<FaInfoCircle size="17"></FaInfoCircle> Klikając zarezerwuj możesz
+							zorganizować zrzutkę i podzielić się kosztami prezentu!
+						</div>
+					) : undefined}
+					{this.props.isOrganiser ? (
+						<Button
+							variant="danger"
+							type="button"
+							onClick={this.props.deleteGift}
+							className="pull-left"
+						>
+							Usuń
+						</Button>
+					) : this.props.gift.is_reserved === 0 ? (
 						<Button
 							variant="light"
 							type="button"

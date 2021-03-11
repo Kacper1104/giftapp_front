@@ -44,25 +44,33 @@ class Events extends Component {
   render() {
     return !this.state.showForm ? (this.state.eventSelected === true ? <Event eventId={this.state.eventId} isOrganiser={this.state.isOrganiser} /> : (
       <div className="body-form">
-        {this.state.joinEvent ?
-          <JoinEvent onJoin={() => this.fetchData()} onCancel={() => this.setState({joinEvent: false})}/>
-          :
-          <ButtonGroup vertical>
-            <Button className="pull-left list-button" variant="success" onClick={() => this.setState({ joinEvent: true })} >Dołącz do wydarzenia</Button>
-            <Button className="pull-left list-button" variant="primary" onClick={() => this.setState({ showForm: true })} >Utwórz nowe wydarzenie</Button>
-          </ButtonGroup>}
+        <div className="jumbotron mt-3">
+          <h1> Moje wydarzenia </h1>
+          <p className="lead">
+            Kliknij "dołącz do wydarzenia" i wpisz swój kod lub wybierz wydarzenie z listy poniżej
+          </p>
+          {this.state.joinEvent ?
+            <JoinEvent onJoin={eventId => this.selectEvent(eventId, false)} onCancel={() => this.setState({ joinEvent: false })} />
+            :
+            <ButtonGroup vertical>
+              <Button className="pull-left list-button" variant="success" onClick={() => this.setState({ joinEvent: true })} >Dołącz do wydarzenia</Button>
+              {//<Button className="pull-left list-button" variant="primary" onClick={() => this.setState({ showForm: true })} >Utwórz nowe wydarzenie</Button>
+              }
+            </ButtonGroup>}
+        </div>
+
         <EventsList
           data={this.state.data}
           callback={(id, isOrganiser) => this.selectEvent(id, isOrganiser)}
         />
-      </div>)
+      </div >)
     ) : <NewEvent
         onCreate={() => {
           this.setState({ showForm: false });
           this.fetchData();
         }}
         onCancel={() => this.setState({ showForm: false })}
-      />;
+      />
   }
 }
 

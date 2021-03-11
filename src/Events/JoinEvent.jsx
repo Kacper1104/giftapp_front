@@ -30,9 +30,9 @@ class JoinEvent extends Component {
         return formIsValid;
     }
 
-    setFieldError(){
+    setFieldError() {
         let errors = {};
-        errors["code"] = "Wpisz poprawny kod dostępu."
+        errors["code"] = "Ten kod dostępu jest nieprawidłowy lub został już użyty. Jeżeli nie wykorzystałeś swojego kodu lub potrzebujesz nowego, skontaktuj się z organizatorem wydarzenia."
         this.setState({ errors: errors, validated: true });
     }
 
@@ -41,7 +41,7 @@ class JoinEvent extends Component {
             //console.log('Validation failed!');
         } else {
             const event = new MyEvent();
-            event.joinEvent(this.state.fields["code"]).then((response) => !response ? this.setFieldError() : this.props.onJoin());
+            event.joinEvent(this.state.fields["code"]).then((response) => !response ? this.setFieldError() : this.props.onJoin(response.eventId));
         }
     }
 
