@@ -8,13 +8,19 @@ import SignIn from "./Components/SignIn";
 import Events from "./Events/Events";
 import RegisterUser from "./Components/RegisterUser";
 import User from "./ViewModel/User";
+import MyModal from "./Components/MyModal";
 
 class Main extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loggedIn: false
+			loggedIn: false,
+			showModal: false,
+			modalTitle: "Some title",
+			modalBody: "Some body"
 		};
+
+		this.showModal.bind(this);
 	}
 
 	checkUserLoggedIn = () => {
@@ -32,9 +38,23 @@ class Main extends Component {
 		);
 	};
 
+	showModal = (title, body) => {
+		this.setState({
+			showModal: true,
+			modalTitle: this.state.modalTitle,
+			modalBody: this.state.modalBody
+		});
+	};
+
 	render() {
 		return (
 			<div className="App">
+				<MyModal
+					show={this.state.showModal}
+					title={this.state.modalTitle}
+					body={this.state.modalBody}
+					callback={() => this.setState({ showModal: false })}
+				></MyModal>
 				<Menu
 					loggedIn={this.state.loggedIn ? this.state.loggedIn : false}
 					name={this.state.name}
@@ -48,10 +68,12 @@ class Main extends Component {
 						<Events />
 					</Route>
 					<Route exact path="/login">
-						<SignIn />
+						<SignIn showModal={(title, body) => this.showModal(title, body)} />
 					</Route>
 					<Route exact path="/register">
-						<RegisterUser />
+						<RegisterUser
+							showModal={(title, body) => this.showModal(title, body)}
+						/>
 					</Route>
 				</Switch>
 			</div>

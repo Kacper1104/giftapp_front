@@ -64,17 +64,23 @@ class Gift {
 
 	uploadImage = async (picture) => {
 		const url =
-			"https://api.cloudinary.com/v1_1/" +
-			cloudinaryConfig.cloud_name +
-			"/image/upload";
+			config.server_address + config.server_port + routes.gifts + "?id=1";
+		// "https://api.cloudinary.com/v1_1/" +
+		// cloudinaryConfig.cloud_name +
+		// "/image/upload";
 		const formData = new FormData();
 		formData.append("file", picture);
-		formData.append("api_key", cloudinaryConfig.api_key);
-		formData.append("upload_preset", "default-preset");
-		formData.append("metadata.img-id", 1);
+		// formData.append("api_key", cloudinaryConfig.api_key);
+		// formData.append("upload_preset", "default-preset");
+		// formData.append("metadata.img-id", 1);
 		try {
 			const response = await fetch(url, {
 				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "multipart/form-data",
+					"x-auth-token": localStorage.token
+				},
 				body: formData
 			});
 			const body = await response.json();
@@ -86,19 +92,21 @@ class Gift {
 		}
 	};
 
-	changeImage = async (gift_id, picture_url) => {
+	changeImage = async (gift_id, picture) => {
+		console.log(picture);
 		const url = config.server_address + config.server_port + routes.gifts;
+		const formData = new FormData();
+		formData.append("file", picture);
 		try {
-			const response = await fetch(url, {
+			const response = await fetch(url + "/id=" + gift_id, {
 				method: "PUT",
 				headers: {
 					Accept: "application/json",
-					"Content-Type": "application/json",
+					"Content-Type": "multipart/form-data",
 					"x-auth-token": localStorage.token
 				},
 				body: JSON.stringify({
-					gift_id: gift_id,
-					picture_url: picture_url
+					body: formData
 				})
 			});
 			if (response.status === 201) {
