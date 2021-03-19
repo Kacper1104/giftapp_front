@@ -114,7 +114,7 @@ class GiftCard extends Component {
 						<ListGroup
 							variant="flush"
 							className="my-2 border-top border-secondary"
-							key={id}
+							key={index}
 						>
 							<ListGroup.Item>{"Rezerwujący: " + user_name}</ListGroup.Item>
 							<ListGroup.Item>{"Email: " + user_email}</ListGroup.Item>
