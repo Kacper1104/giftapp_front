@@ -123,7 +123,11 @@ class GiftCard extends Component {
 									? "Numer telefonu: " + contact_number
 									: undefined}
 							</ListGroup.Item>
-							<ListGroup.Item>{"Komentarz: " + description}</ListGroup.Item>
+							<ListGroup.Item>
+								{description && description != null
+									? "Komentarz: " + description
+									: undefined}
+							</ListGroup.Item>
 						</ListGroup>
 					);
 				})}
