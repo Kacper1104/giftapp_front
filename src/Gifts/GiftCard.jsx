@@ -36,19 +36,10 @@ class GiftCard extends Component {
 			44;
 		window.scrollTo({ top: y, behavior: "smooth" });
 		//this.imageRef.current.style.display = "none";
-		this.setState({ isExpanded: true });
-		if (!this.props.isOrganiser) {
-			this.props.gift
-				.getReservations(this.props.gift.gift_id)
-				.then((json) => this.setState({ data: json }));
-		}
-	};
-
-	expandCard = () => {
-		this.cardRef.current.classList.remove("gift");
-		this.cardRef.current.classList.add("card-expanded");
-		//this.imageRef.current.style.display = "none";
-		this.setState({ isExpanded: true });
+		this.setState({
+			isExpanded: true,
+			image: this.state.image.replace("upload/h_159,w_254,c_fill", "upload")
+		});
 		if (!this.props.isOrganiser) {
 			this.props.gift
 				.getReservations(this.props.gift.gift_id)
@@ -60,7 +51,11 @@ class GiftCard extends Component {
 		this.cardRef.current.classList.remove("card-expanded");
 		this.cardRef.current.classList.add("gift");
 		//this.imageRef.current.style.display = "initial";
-		this.setState({ isExpanded: false, data: undefined });
+		this.setState({
+			isExpanded: false,
+			data: undefined,
+			image: this.state.image.replace("upload", "upload/h_159,w_254,c_fill")
+		});
 	};
 
 	giftDetails = () => {
