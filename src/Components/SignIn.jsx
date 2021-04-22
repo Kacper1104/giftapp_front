@@ -63,11 +63,6 @@ class SignIn extends Component {
 			if (!result) {
 				console.log("Could not sign in!");
 				this.props.showModal("Błąd", "Login lub hasło nieprawidłowe");
-				// this.setState({
-				// 	showModal: true,
-				// 	modalTitle: "Błąd",
-				// 	modalBody: "Login lub hasło niepoprawne"
-				// });
 			} else {
 				window.location.href = "/";
 			}

@@ -46,6 +46,14 @@ class Main extends Component {
 		});
 	};
 
+	hideModal = () => {
+		this.setState({
+			showModal: false,
+			modalTitle: "Some title",
+			modalBody: "Some body"
+		});
+	};
+
 	render() {
 		return (
 			<div className="App">
@@ -62,13 +70,23 @@ class Main extends Component {
 				/>
 				<Switch>
 					<Route exact path="/">
-						{this.state.loggedIn ? <Events /> : <SignIn />}
+						{this.state.loggedIn ? (
+							<Events />
+						) : (
+							<SignIn
+								showModal={(title, body) => this.showModal(title, body)}
+								hideModal={this.hideModal}
+							/>
+						)}
 					</Route>
 					<Route exact path="/events">
 						<Events />
 					</Route>
 					<Route exact path="/login">
-						<SignIn showModal={(title, body) => this.showModal(title, body)} />
+						<SignIn
+							showModal={(title, body) => this.showModal(title, body)}
+							hideModal={this.hideModal}
+						/>
 					</Route>
 					<Route exact path="/register">
 						<RegisterUser
