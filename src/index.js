@@ -16,8 +16,8 @@ class Main extends Component {
 		this.state = {
 			loggedIn: false,
 			showModal: false,
-			modalTitle: "Some title",
-			modalBody: "Some body"
+			modalTitle: "Wystąpił błąd",
+			modalBody: "Wystąpił niespodziewany błąd, proszę spróbować później."
 		};
 
 		this.showModal.bind(this);
@@ -41,16 +41,8 @@ class Main extends Component {
 	showModal = (title, body) => {
 		this.setState({
 			showModal: true,
-			modalTitle: this.state.modalTitle,
-			modalBody: this.state.modalBody
-		});
-	};
-
-	hideModal = () => {
-		this.setState({
-			showModal: false,
-			modalTitle: "Some title",
-			modalBody: "Some body"
+			modalTitle: title || this.state.modalTitle,
+			modalBody: body || this.state.modalBody
 		});
 	};
 
@@ -75,7 +67,6 @@ class Main extends Component {
 						) : (
 							<SignIn
 								showModal={(title, body) => this.showModal(title, body)}
-								hideModal={this.hideModal}
 							/>
 						)}
 					</Route>
@@ -83,10 +74,7 @@ class Main extends Component {
 						<Events />
 					</Route>
 					<Route exact path="/login">
-						<SignIn
-							showModal={(title, body) => this.showModal(title, body)}
-							hideModal={this.hideModal}
-						/>
+						<SignIn showModal={(title, body) => this.showModal(title, body)} />
 					</Route>
 					<Route exact path="/register">
 						<RegisterUser
